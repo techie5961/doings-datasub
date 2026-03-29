@@ -18,28 +18,28 @@
             <div class="column g-5">
                 <label>First Name</label>
                 <div class="cont">
-                    <input name="first_name" placeholder="First Name" type="text" class="inp input required">
+                    <input readonly autocomplete="off" onfocus="this.removeAttribute('readonly')" name="first_name" placeholder="First Name" type="text" class="inp input required">
                 </div>
             </div>
                  {{-- new input --}}
             <div class="column g-5">
-                <label>First Name</label>
+                <label>Last Name</label>
                 <div class="cont">
-                    <input name="last_name" placeholder="Last Name" type="text" class="inp input required">
+                    <input readonly autocomplete="off" onfocus="this.removeAttribute('readonly')" name="last_name" placeholder="Last Name" type="text" class="inp input required">
                 </div>
             </div>
                  {{-- new input --}}
             <div class="column g-5">
                 <label>Phone Number</label>
                 <div class="cont">
-                    <input name="phone" placeholder="08012345678" type="number" class="inp input required">
+                    <input readonly autocomplete="off" onfocus="this.removeAttribute('readonly')" name="phone" placeholder="08012345678" type="number" class="inp input required">
                 </div>
             </div>
                  {{-- new input --}}
             <div class="column g-5">
                 <label>Email Address</label>
                 <div class="cont">
-                    <input name="email" placeholder="email@example.com" type="email" class="inp input required">
+                    <input readonly autocomplete="off" onfocus="this.removeAttribute('readonly')" name="email" placeholder="email@example.com" type="email" class="inp input required">
                 </div>
             </div>
                   {{-- new input --}}
@@ -58,28 +58,28 @@
             <div class="column g-5">
                 <label>Referral phone(Optional)</label>
                 <div class="cont">
-                    <input name="ref" placeholder="Enter referral phone" type="number" class="inp input">
+                    <input readonly autocomplete="off" onfocus="this.removeAttribute('readonly')" name="ref" placeholder="Enter referral phone" type="number" class="inp input">
                 </div>
             </div>
                  {{-- new input --}}
             <div class="column g-5">
                 <label>Password</label>
                 <div class="cont">
-                    <input name="password" placeholder="Create password" type="password" class="inp input required">
+                    <input readonly autocomplete="new-password" onfocus="this.removeAttribute('readonly')" name="password" placeholder="Create password" type="password" class="inp input required">
                 </div>
             </div>
                  {{-- new input --}}
             <div class="column g-5">
                 <label>Confirm Password</label>
                 <div class="cont">
-                    <input name="confirm_password" placeholder="Retype password" type="password" class="inp input required">
+                    <input readonly autocomplete="new-password" onfocus="this.removeAttribute('readonly')" name="confirm_password" placeholder="Retype password" type="password" class="inp input required">
                 </div>
             </div>
                  {{-- new input --}}
             <div class="column g-5">
                 <label>Transaction pin</label>
                 <div class="cont">
-                    <input name="pin" placeholder="4 digit pin" maxlength="4" inputmode="numeric" type="text" class="inp input required">
+                    <input readonly autocomplete="off" onfocus="this.removeAttribute('readonly')" name="pin" placeholder="4 digit pin" maxlength="4" inputmode="numeric" type="text" class="inp input required">
                 </div>
             </div>
             <button class="post">

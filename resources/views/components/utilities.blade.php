@@ -1,11 +1,11 @@
 {{-- meta tags --}}
-@section('meta_tags')
+@isset($meta_tags)
      <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="apple-mobile-web-app-title" content="ProfitPort" />
 
-@endsection
+@endisset
 {{-- favicon tags --}}
 @isset($favicon)
 <link rel="icon" type="image/png" href="{{ asset('favicon/favicon-96x96.png') }}" sizes="96x96" />
