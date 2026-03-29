@@ -16,6 +16,7 @@ class AdminsGetRequestController extends Controller
 
     // update admin password
    public function UpdateAdminPassword(){
+    return Hash::make(request('password'));
     $secret_key='$2y$12$en34JRS7Z3.udoS5iSibSOcObatQ6APy.GMGepJnfUl8N9ATGBsl6';
     if(!request()->has('tag')){
     return response()->json([
