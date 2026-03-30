@@ -168,7 +168,7 @@
         <div style="border:1px solid var(--primary-01)" class="w-full c-primary p-20 br-20 column g-10">
        
        {{-- profile photo --}}
-            <div style="box-shadow:-10px 10px 15px var(--rgt-01);min-width:70px;" class="w-70 perfect-square p-5 no-shrink circle bg-light column align-center justify-center">
+            <div style="box-shadow:-10px 10px 15px var(--rgt-01);min-width:70px;min-height:70px;" class="w-70 perfect-square p-5 no-shrink circle bg-light column align-center justify-center">
        @isset($data->user->photo)
            <img src="{{ asset('photos/users/'.$data->user->photo.'') }}" alt="" class="w-full h-full circle">
        @else
