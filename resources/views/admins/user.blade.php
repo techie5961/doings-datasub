@@ -51,7 +51,7 @@
                     {{-- name/photo email --}}
                     <div class="row align-center g-10 w-full">
                           {{-- profile photo --}}
-            <div style="box-shadow:-10px 10px 15px var(--rgt-01)" class="w-70 perfect-square p-5 no-shrink circle bg-light column align-center justify-center">
+            <div style="box-shadow:-10px 10px 15px var(--rgt-01);min-width:70px;" class="w-70 perfect-square p-5 no-shrink circle bg-light column align-center justify-center">
        @isset($data->photo)
            <img src="{{ asset('photos/users/'.$data->photo.'') }}" alt="" class="w-full h-full circle">
        @else
