@@ -75,7 +75,7 @@ Route::get('users/password/update',[
 
 // users post request (authenticated)
 // update password
-Route::get('users/post/update/password/process',[
+Route::post('users/post/update/password/process',[
     UsersPostRequestController::class,'UpdatePassword'
 ]);
 
