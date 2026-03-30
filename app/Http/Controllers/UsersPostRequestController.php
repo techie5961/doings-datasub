@@ -130,4 +130,38 @@ class UsersPostRequestController extends Controller
         ]);
 
     }
+
+    // update password
+    public function UpdatePassword(){
+        // ensure old password is same as current password
+        if(!Hash::check(request('old_password'),Auth::guard('users')->user()->password)){
+            return response()->json([
+                'message' => 'Invalid old password',
+                'status' => 'error'
+            ]);
+        }
+        // ensure new password is different from current password
+        if(Hash::check(request('new_password'),Auth::guard('users')->user()->password)){
+            return response()->json([
+                'message' => 'New password must be different from your current password',
+                'status' => 'error'
+            ]);
+        }
+        // ensure confirm password and new password is the same
+        if(!Hash::check(request('confirm_password'),Hash::make(request('new_password')))){
+    return response()->json([
+        'message' => 'New password and confirm password must be the same',
+        'status' => 'error'
+    ]);
+        }
+    // insert into database
+        DB::table('users')->where('id',Auth::guard('users')->user()->id)->update([
+            'password' => Hash::make(request('new_password')),
+            'updated' => Carbon::now()
+        ]);
+        return response()->json([
+            'message' => 'Account password updated successfully',
+            'status' => 'success'
+        ]);
+    }
 }

@@ -49,5 +49,10 @@ class UserDashboardController extends Controller
     return redirect('users/login');
     }
 
+    // password update
+    public function PasswordUpdate(){
+        return view('users.password');
+    }
+
 
 }

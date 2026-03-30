@@ -66,13 +66,27 @@ Route::get('users/settings',[
 Route::get('users/logout',[
     UserDashboardController::class,'Logout'
 ]);
+// password update
+Route::get('users/password/update',[
+    UserDashboardController::class,'PasswordUpdate'
+]);
+
+
+
+// users post request (authenticated)
+// update password
+Route::get('users/post/update/password/process',[
+    UsersPostRequestController::class,'UpdatePassword'
+]);
+
 
 
 });
+
 // users dashboard midddleware end
 
 
-// users post request
+// users post request(not authenticated)
 // register
 Route::post('users/post/register/process',[
     UsersPostRequestController::class,'Register'
