@@ -18,7 +18,7 @@
 
     </div> 
     {{-- total users --}}
-    <div style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
+    <div onclick="window.location.href='{{ url('admins/users') }}'" style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
         <div class="row g-10 align-center space-between w-full">
             <span>Total Users</span>
             <span class="c-primary opacity-02">
@@ -30,7 +30,7 @@
        
     </div>
      {{-- new users --}}
-    <div style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
+    <div onclick="window.location.href='{{ url('admins/users?date=today') }}'" style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
         <div class="row g-10 align-center space-between w-full">
             <span>New Users</span>
             <span class="c-primary opacity-02">
@@ -42,7 +42,7 @@
     </div>
     
       {{-- pending withdrawal --}}
-    <div style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
+    <div onclick="window.location.href='{{ url('admins/transactions?type=withdrawal&status=pending') }}'" style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
         <div class="row g-10 align-center space-between w-full">
             <span>Pending Withdrawals</span>
             <span class="c-gold opacity-02">
@@ -53,7 +53,7 @@
        
     </div>
      {{-- successfull withdrawals --}}
-    <div style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
+    <div onclick="window.location.href='{{ url('admins/transactions?type=withdrawal&status=success') }}'" style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
         <div class="row g-10 align-center space-between w-full">
             <span>Successfull Withdrawals</span>
             <span class="c-green opacity-02">
@@ -64,7 +64,7 @@
        
     </div>
       {{-- rejected withdrawals --}}
-    <div style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
+    <div onclick="window.location.href='{{ url('admins/transactions?type=withdrawal&status=rejected') }}'" style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
         <div class="row g-10 align-center space-between w-full">
             <span>Rejected Withdrawals</span>
             <span class="c-red opacity-02">
@@ -75,7 +75,7 @@
        
     </div>
       {{-- pending deposits --}}
-    <div style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
+    <div onclick="window.location.href='{{ url('admins/transactions?type=deposit&status=pending') }}'" style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
         <div class="row g-10 align-center space-between w-full">
             <span>Pending Deposits</span>
             <span class="c-gold opacity-02">
@@ -85,8 +85,8 @@
         <strong class="font-2">&#8358;{{ number_format($pending_deposits,2) }}</strong>
        
     </div>
-      {{-- pending deposits --}}
-    <div style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
+      {{-- successfull deposits --}}
+    <div onclick="window.location.href='{{ url('admins/transactions?type=deposit&status=success') }}'" style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
         <div class="row g-10 align-center space-between w-full">
             <span>Successfull Deposits</span>
             <span class="c-green opacity-02">
@@ -96,8 +96,8 @@
         <strong class="font-2">&#8358;{{ number_format($successfull_deposits,2) }}</strong>
        
     </div>
-      {{-- pending deposits --}}
-    <div style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
+      {{-- rejected deposits --}}
+    <div onclick="window.location.href='{{ url('admins/transactions?type=deposit&status=rejected') }}'" style="border:1px solid var(--rgt-01)" class="w-full analytic bg-light p-20 br-20 column g-10">
         <div class="row g-10 align-center space-between w-full">
             <span>Rejected Deposits</span>
             <span class="c-red opacity-02">

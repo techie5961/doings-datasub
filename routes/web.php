@@ -70,6 +70,27 @@ Route::get('users/logout',[
 Route::get('users/password/update',[
     UserDashboardController::class,'PasswordUpdate'
 ]);
+// transaction pin update
+Route::get('users/transaction/pin/update',[
+    UserDashboardController::class,'UpdateTransactionPin'
+]);
+// profile update
+Route::get('users/profile/update',[
+    UserDashboardController::class,'ProfileUpdate'
+]);
+// services
+Route::get('users/services',[
+    UserDashboardController::class,'Services'
+]);
+// ussd
+Route::get('users/ussd',[
+    UserDashboardController::class,'USSD'
+]);
+// calculator
+Route::get('users/calculator',[
+    UserDashboardController::class,'Calculator'
+]);
+
 
 
 
@@ -77,6 +98,14 @@ Route::get('users/password/update',[
 // update password
 Route::post('users/post/update/password/process',[
     UsersPostRequestController::class,'UpdatePassword'
+]);
+// update transaction pin
+Route::post('users/post/update/transactin/pin/process',[
+    UsersPostRequestController::class,'UpdateTransactionPin'
+]);
+// update profile photo
+Route::post('users/post/update/profile/photo/process',[
+    UsersPostRequestController::class,'UpdateProfilePhoto'
 ]);
 
 

@@ -164,4 +164,53 @@ class UsersPostRequestController extends Controller
             'status' => 'success'
         ]);
     }
+
+
+      // update transaction pin
+    public function UpdateTransactionPin(){
+        // ensure old pin is same as current password
+        if(!Hash::check(request('old_pin'),Auth::guard('users')->user()->pin)){
+            return response()->json([
+                'message' => 'Invalid old pin',
+                'status' => 'error'
+            ]);
+        }
+        // ensure new pin is different from current password
+        if(Hash::check(request('new_pin'),Auth::guard('users')->user()->pin)){
+            return response()->json([
+                'message' => 'New pin must be different from your current pin',
+                'status' => 'error'
+            ]);
+        }
+        // ensure confirm pin and new pin is the same
+        if(!Hash::check(request('confirm_pin'),Hash::make(request('new_pin')))){
+    return response()->json([
+        'message' => 'New pin and confirm pin must be the same',
+        'status' => 'error'
+    ]);
+        }
+    // insert into database
+        DB::table('users')->where('id',Auth::guard('users')->user()->id)->update([
+            'pin' => Hash::make(request('new_pin')),
+            'updated' => Carbon::now()
+        ]);
+        return response()->json([
+            'message' => 'Transaction pin updated successfully',
+            'status' => 'success'
+        ]);
+    }
+    // update profile photo
+    public function UpdateProfilePhoto(){
+        $photo=time().'.'.request()->file('photo')->getClientOriginalExtension();
+        if(request()->file('photo')->move(public_path('photos/users'),$photo)){
+            DB::table('users')->where('id',Auth::guard('users')->user()->id)->update([
+                'photo' => $photo,
+                'updated' => Carbon::now()
+            ]);
+            return response()->json([
+                'message' => 'Profile photo updated successfully',
+                'status' => 'success'
+            ]);
+        }
+    }
 }

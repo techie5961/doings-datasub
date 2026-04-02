@@ -20,7 +20,7 @@
             <div class="column g-5">
                 <label>Phone Number</label>
                 <div class="cont">
-                    <input name="phone" placeholder="08012345678" type="number" class="inp input required">
+                    <input readonly autocomplete="off" onfocus="this.removeAttribute('readonly')" name="phone" placeholder="08012345678" type="number" class="inp input required">
                 </div>
             </div>
                 
@@ -28,7 +28,7 @@
             <div class="column g-5">
                 <label>Password</label>
                 <div class="cont">
-                    <input name="password" placeholder="Enter password" type="password" class="inp input required">
+                    <input readonly autocomplete="new-password" onfocus="this.removeAttribute('readonly')" name="password" placeholder="Enter password" type="password" class="inp input required">
                 </div>
             </div>
             

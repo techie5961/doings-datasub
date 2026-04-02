@@ -67,7 +67,7 @@
                 
             </div>
               {{-- new row/link --}}
-            <div onclick="Redirect('{{ url('users/password/update') }}')" class="row space-between w-full g-10 align-center">
+            <div onclick="Redirect('{{ url('users/transaction/pin/update') }}')" class="row space-between w-full g-10 align-center">
                 <div style="background:var(--primary-01);color:var(--primary)" class="column h-40 perfect-square br-10 align-center justify-center">
                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M216.57,39.43A80,80,0,0,0,83.91,120.78L28.69,176A15.86,15.86,0,0,0,24,187.31V216a16,16,0,0,0,16,16H72a8,8,0,0,0,8-8V208H96a8,8,0,0,0,8-8V184h16a8,8,0,0,0,5.66-2.34l9.56-9.57A79.73,79.73,0,0,0,160,176h.1A80,80,0,0,0,216.57,39.43ZM180,92a16,16,0,1,1,16-16A16,16,0,0,1,180,92Z"></path></svg>
 
@@ -259,7 +259,7 @@
         {{-- body/links --}}
         <div style="box-shadow:0 0 10px rgba(0,0,0,0.1)" class="w-full groups bg-light br-20 column p-20 g-10">
            {{-- new row/link --}}
-            <div onclick="Redirect('{{ url('users/chat') }}')" class="row space-between w-full g-10 align-center">
+            <div onclick="Redirect('{{ url('users/support') }}')" class="row space-between w-full g-10 align-center">
                 <div style="background:var(--primary-01);color:var(--primary)" class="column h-40 perfect-square br-10 align-center justify-center">
                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M232,128v80a40,40,0,0,1-40,40H136a8,8,0,0,1,0-16h56a24,24,0,0,0,24-24H192a24,24,0,0,1-24-24V144a24,24,0,0,1,24-24h23.65A88,88,0,0,0,66,65.54,87.29,87.29,0,0,0,40.36,120H64a24,24,0,0,1,24,24v40a24,24,0,0,1-24,24H48a24,24,0,0,1-24-24V128A104.11,104.11,0,0,1,201.89,54.66,103.41,103.41,0,0,1,232,128Z"></path></svg>
 

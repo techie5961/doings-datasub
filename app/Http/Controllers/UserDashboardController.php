@@ -25,7 +25,12 @@ class UserDashboardController extends Controller
     }
     // transactions
    public function Transactions(){
-    return view('users.transactions');
+    $transactions=DB::table('transactions')->where('user_id',Auth::guard('users')->user()->id);
+    
+    $transactions=$transactions->orderBy('date','desc')->paginate(10);
+    return view('users.transactions',[
+        'trx' => $transactions
+    ]);
    }
      //  support
      public function Support(){
@@ -54,5 +59,27 @@ class UserDashboardController extends Controller
         return view('users.password');
     }
 
+    // update transaction  pin
+    public function UpdateTransactionPin(){
+    return view('users.pin.transaction');
+    }
+    // profile update
+    public function ProfileUpdate(){
+        return view('users.profile',[
+            'join_date' => Carbon::parse(Auth::guard('users')->user()->date)->format('M Y')
+        ]);
+    }
+    // services
+    public function Services(){
+        return view('users.services');
+    }
+    // ussd 
+    public function USSD(){
+        return view('users.ussd');
+    }
+    // calculator
+    public function Calculator(){
+        return view('users.calculator');
+    }
 
 }

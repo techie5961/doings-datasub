@@ -96,6 +96,9 @@ class AdminsDashboardController extends Controller
         if(request()->has('type')){
             $users=$users->where('type',request('type'));
         }
+         if(request()->has('date')){
+            $users=$users->whereDate('date',Carbon::today());
+        }
         $users=$users->orderBy('date','desc')->paginate(10);
         $users->getCollection()->transform(function($each){
     $each->date_format=Carbon::parse($each->date)->format('d M Y');

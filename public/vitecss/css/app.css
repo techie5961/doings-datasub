@@ -46,44 +46,47 @@
     --primary-07:rgba(var(--primary-rgb),0.7);
     --primary-08:rgba(var(--primary-rgb),0.8);
     --primary-09:rgba(var(--primary-rgb),0.9);
+    --primary-10:rgb(var(--primary-rgb));
      /* rgb */
-    --rgb-001:rgb(var(--rgb),0.01);
-    --rgb-002:rgb(var(--rgb),0.02);
-    --rgb-003:rgb(var(--rgb),0.03);
-    --rgb-004:rgb(var(--rgb),0.04);
-    --rgb-005:rgb(var(--rgb),0.05);
-    --rgb-006:rgb(var(--rgb),0.06);
-    --rgb-007:rgb(var(--rgb),0.07);
-    --rgb-08:rgb(var(--rgb),0.08);
-    --rgb-009:rgb(var(--rgb),0.09);
-    --rgb-01:rgb(var(--rgb),0.1);
-    --rgb-02:rgb(var(--rgb),0.2);
-    --rgb-03:rgb(var(--rgb),0.3);
-    --rgb-04:rgb(var(--rgb),0.4);
-    --rgb-05:rgb(var(--rgb),0.5);
-    --rgb-06:rgb(var(--rgb),0.6);
-    --rgb-07:rgb(var(--rgb),0.7);
-    --rgb-08:rgb(var(--rgb),0.8);
-    --rgb-09:rgb(var(--rgb),0.9);
+    --rgb-001:rgba(var(--rgb),0.01);
+    --rgb-002:rgba(var(--rgb),0.02);
+    --rgb-003:rgba(var(--rgb),0.03);
+    --rgb-004:rgba(var(--rgb),0.04);
+    --rgb-005:rgba(var(--rgb),0.05);
+    --rgb-006:rgba(var(--rgb),0.06);
+    --rgb-007:rgba(var(--rgb),0.07);
+    --rgb-08:rgba(var(--rgb),0.08);
+    --rgb-009:rgba(var(--rgb),0.09);
+    --rgb-01:rgba(var(--rgb),0.1);
+    --rgb-02:rgba(var(--rgb),0.2);
+    --rgb-03:rgba(var(--rgb),0.3);
+    --rgb-04:rgba(var(--rgb),0.4);
+    --rgb-05:rgba(var(--rgb),0.5);
+    --rgb-06:rgba(var(--rgb),0.6);
+    --rgb-07:rgba(var(--rgb),0.7);
+    --rgb-08:rgba(var(--rgb),0.8);
+    --rgb-09:rgba(var(--rgb),0.9);
+    --rgb-10:rgb(var(--rgb));
     /* rgt */
-    --rgt-001:rgb(var(--rgt),0.01);
-    --rgt-002:rgb(var(--rgt),0.02);
-    --rgt-003:rgb(var(--rgt),0.03);
-    --rgt-004:rgb(var(--rgt),0.04);
-    --rgt-005:rgb(var(--rgt),0.05);
-    --rgt-006:rgb(var(--rgt),0.06);
-    --rgt-007:rgb(var(--rgt),0.07);
-    --rgt-08:rgb(var(--rgt),0.08);
-    --rgt-009:rgb(var(--rgt),0.09);
-    --rgt-01:rgb(var(--rgt),0.1);
-    --rgt-02:rgb(var(--rgt),0.2);
-    --rgt-03:rgb(var(--rgt),0.3);
-    --rgt-04:rgb(var(--rgt),0.4);
-    --rgt-05:rgb(var(--rgt),0.5);
-    --rgt-06:rgb(var(--rgt),0.6);
-    --rgt-07:rgb(var(--rgt),0.7);
-    --rgt-08:rgb(var(--rgt),0.8);
-    --rgt-09:rgb(var(--rgt),0.9);
+    --rgt-001:rgba(var(--rgt),0.01);
+    --rgt-002:rgba(var(--rgt),0.02);
+    --rgt-003:rgba(var(--rgt),0.03);
+    --rgt-004:rgba(var(--rgt),0.04);
+    --rgt-005:rgba(var(--rgt),0.05);
+    --rgt-006:rgba(var(--rgt),0.06);
+    --rgt-007:rgba(var(--rgt),0.07);
+    --rgt-08:rgba(var(--rgt),0.08);
+    --rgt-009:rgba(var(--rgt),0.09);
+    --rgt-01:rgba(var(--rgt),0.1);
+    --rgt-02:rgba(var(--rgt),0.2);
+    --rgt-03:rgba(var(--rgt),0.3);
+    --rgt-04:rgba(var(--rgt),0.4);
+    --rgt-05:rgba(var(--rgt),0.5);
+    --rgt-06:rgba(var(--rgt),0.6);
+    --rgt-07:rgba(var(--rgt),0.7);
+    --rgt-08:rgba(var(--rgt),0.8);
+    --rgt-09:rgba(var(--rgt),0.9);
+    --rgt-10:rgb(var(--rgt));
      /* secondary color */
     --secondary:#0b1f33;
     /* secondary light */
@@ -446,7 +449,7 @@ img{
     justify-content:center;
     gap:10px;
     flex-shrink: 0;
-    border:1px solid var(--rgb-01);
+    border:1px solid var(--rgt-01);
     background:var(--bg-light);
     color:var(--text);
     user-select:none;
@@ -669,7 +672,7 @@ button.disabled{
     justify-content: center;
     gap:10px;
     font-family: var(--font);
-    border-bottom:2px solid var(--primary-dark);
+    border-bottom:2px solid hsl(var(--primary-hsl),50%,30%);
     --height:20px;
     --size:0.8rem;
 }
@@ -1445,6 +1448,9 @@ button.post.active .working{
 /* border radius */
 .br-none{
     border-radius:none !important;
+}
+.br-inherit{
+    border-radius:inherit;
 }
 .br-0{
     border-radius:0 !important;
@@ -2892,7 +2898,7 @@ body:has(.modal.active){
 .toggle{
     width:50px;
     
-    background:var(--rgb-02);
+    background:var(--rgt-02);
     border-radius:10000px;
     overflow:hidden;
     padding:2px;
