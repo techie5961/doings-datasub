@@ -95,7 +95,7 @@
     <header>
         <div class="row w-full align-center g-10 space-between">
             @isset(Auth::guard('users')->user()->photo)
-                <img class="w-50 circle no-shrink circle" src="{{ asset('photos/users/'.Auth::guard('users')->user()->photo.'') }}" alt="">
+                <img class="w-50 perfect-square circle no-shrink circle" src="{{ asset('photos/users/'.Auth::guard('users')->user()->photo.'') }}" alt="">
             @else
             <div class="w-40 bg-primary no-shrink no-select primary-text perfect-square circle column align-center justify-center">
                {{ $inititals }}
