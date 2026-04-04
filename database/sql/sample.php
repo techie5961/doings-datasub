@@ -102,6 +102,41 @@
     // 'updated' => Carbon::now(),
     // 'date' => Carbon::now()
     // ]);
+// api transaction airtime/data
+    //  DB::table('transactions')->insert([
+    // 'uniqid' => strtoupper(Str::random(10)),
+    // 'user_id' => 1,
+    // 'title' => 'Airtime Topup',
+    // 'class' => 'debit',
+    // 'type' => 'airtime_topup',
+    // 'amount' => 6000,
+    // 'wallet' => json_encode([
+    //      'from' => 'main_balance',
+    //      'to' => [
+    //         'mobile_number' => 08118768360,
+    //         'mobile_network' => 'Glo',
+    //         
+    //      
+    //     ],
+    //     
+       
+
+    // ]),
+    // 'json' => json_encode([
+    // 'balance' => [
+    //     'before' => 10000,
+    //     'after' => 4000
+    // ],
+    // 'primary_wallet' => 'Main Wallet',
+    // 'fee' => 100,
+    // 'api_response' => $response,
+    // 'type' => 'vtu_transaction'
+
+    // ]),
+    // 'status' => 'rejected',
+    // 'updated' => Carbon::now(),
+    // 'date' => Carbon::now()
+    // ]);
 
     
 // notifications

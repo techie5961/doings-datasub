@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class UserDashboardController extends Controller
 {
@@ -80,6 +81,29 @@ class UserDashboardController extends Controller
     // calculator
     public function Calculator(){
         return view('users.calculator');
+    }
+    // pricing
+    public function Pricing(){
+        // data plans
+        $data=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APIDatabundlePlansV2.asp',[
+            'UserID' => env('CLUBKONNECT_USER_ID')
+        ]);
+        if($data->successful()){
+            $data_plans=$data->json();
+        }
+        // cable tv plans
+        $cable=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APICableTVPackagesV2.asp',[
+            'UserID' => env('CLUBKONNECT_USER_ID')
+        ]);
+        if($cable->successful()){
+            $cable_plans=$cable->json();
+        }
+        // return $cable_plans;
+    
+        return view('users.pricing',[
+            'data_plans' => $data,
+            'cable_plans' => $cable_plans
+        ]);
     }
 
 }

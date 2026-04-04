@@ -84,4 +84,17 @@ function NigeriaStates(){
 return json_decode(json_encode($states));
 }
 
+function FormatPrice($amount,$type){
+  $api_settings=json_decode(DB::table('settings')->where('key','api_settings')->first()->value ?? '{}');
+  $fee=$api_settings->{$type};
+ 
+  if($api_settings->method == 'percentage'){
+    $fee=($api_settings->{$type} * $amount)/100;
+    return round($amount + $fee,0);
+  }else{
+    $fee=$api_settings->{$type};
+    return $amount + $fee;
+  }
+
+}
 ?>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 
 class AdminsGetRequestController extends Controller
@@ -165,6 +166,19 @@ public function SearchUsers(){
             'status->admins' => 'read'
         ]);
         return redirect(url()->previous());
+    }
+    // get api balance
+    public function GetAPIBalance(){
+     $response=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APIWalletBalanceV1.asp',[
+            'UserID' => env("CLUBKONNECT_USER_ID"),
+            'APIKey' => env('CLUBKONNECT_API_KEY')
+
+        ]);
+        if($response->successful()){
+            $data=$response->json();
+           
+        }
+     return response('&#8358;'.$data['balance'].'');
     }
 
 

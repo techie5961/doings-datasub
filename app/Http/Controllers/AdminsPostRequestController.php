@@ -210,4 +210,36 @@ class AdminsPostRequestController extends Controller
             'status' => 'success'
         ]);
     }
+    
+    // api settings
+    public function APISettings(){
+            $message='API settings updated success';
+        $key='api_settings';
+        $value=[
+        'method' => request('method') ?? '',
+        'subscriber' => request('subscriber') ?? '',
+        'agent' => request('agent'),
+        'api' => request('api')
+        ];
+       if(DB::table('settings')->where('key',$key)->exists()){
+     DB::table('settings')->where('key',$key)->update([
+             'value' => json_encode($value),
+            'updated' => Carbon::now()
+        ]);
+       }else{
+         DB::table('settings')->insert([
+            'key' => $key,
+            'value' => json_encode($value),
+            'status' => 'active',
+            'updated' => Carbon::now(),
+            'date' => Carbon::now()
+        ]);
+       }
+        
+
+        return response()->json([
+            'message' => $message,
+            'status' => 'success'
+        ]);
+    }
 }

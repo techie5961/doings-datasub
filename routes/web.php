@@ -90,6 +90,10 @@ Route::get('users/ussd',[
 Route::get('users/calculator',[
     UserDashboardController::class,'Calculator'
 ]);
+// pricing
+Route::get('users/pricing',[
+    UserDashboardController::class,'Pricing'
+]);
 
 
 
@@ -212,6 +216,14 @@ Route::get('admins/notifications/mark/all/as/read',[
 Route::get('admins/logout',[
     AdminsDashboardController::class,'Logout'
 ]);
+// api management
+Route::get('admins/api/management',[
+    AdminsDashboardController::class,'APIManagement'
+]);
+// get api balance
+Route::get('admins/get/api/balance',[
+    AdminsGetRequestController::class,'GetAPIBalance'
+]);
 
 
 // ADMINS POST REQUEST(authenticated)
@@ -234,6 +246,10 @@ Route::post('admins/post/social/settings/process',[
 // contact settings
 Route::post('admins/post/contact/settings/process',[
     AdminsPostRequestController::class,'ContactSettings'
+]);
+// api settings
+Route::post('admins/post/api/settings/process',[
+    AdminsPostRequestController::class,'APISettings'
 ]);
 
 

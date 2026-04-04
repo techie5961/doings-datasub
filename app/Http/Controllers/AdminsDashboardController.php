@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class AdminsDashboardController extends Controller
 {
@@ -57,6 +58,21 @@ class AdminsDashboardController extends Controller
             $today=$today->where('user_id',request('user_id'));
             $sum=$sum->where('user_id',request('user_id'));;
         }
+        if(request()->has('json_type')){
+            $transactions=$transactions->where('json->type',request('json_type'));
+            $total=$total->where('json->type',request('json_type'));
+            $today=$today->where('json->type',request('json_type'));
+            $sum=$sum->where('json->type',request('json_type'));
+
+        }
+         if(request()->has('date')){
+            $transactions=$transactions->where('date',Carbon::today());
+            $total=$total->where('date',Carbon::today());
+            $today=$today->where('date',Carbon::today());
+            $sum=$sum->where('date',Carbon::today());
+
+        }
+        
        $transactions=$transactions->orderBy('date','desc')->paginate(10);
        $transactions->getCollection()->transform(function($each){
     $each->day=Carbon::parse($each->date)->format('M d, Y');
@@ -153,6 +169,48 @@ class AdminsDashboardController extends Controller
     public function Logout(){
        Auth::guard('admins')->logout();
        return redirect('admins/login');
+    }
+
+    // api management
+    public function APIManagement(){
+    //    balance api
+    $response=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APIWalletBalanceV1.asp',[
+            'UserID' => env("CLUBKONNECT_USER_ID"),
+            'APIKey' => env('CLUBKONNECT_API_KEY')
+
+        ]);
+        if($response->successful()){
+            $data=$response->json();
+           
+        }
+
+        // price list api
+        $prices=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APIDatabundlePlansV2.asp',[
+            'UserID' => env('CLUBKONNECT_USER_ID')
+        ]);
+        if($prices->successful()){
+            $prices=$prices->json();
+        }
+        // cable tv plans
+        $cable=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APICableTVPackagesV2.asp',[
+            'UserID' => env('CLUBKONNECT_USER_ID')
+        ]);
+        if($cable->successful()){
+            $cable_plans=$cable->json();
+        }
+        // return $cable_plans;
+     
+        return view('admins.api.manage',[
+            'balance' => $data['balance'],
+            'account_number' => env('CLUBKONNECT_ACCOUNT_NUMBER'),
+            'account_bank' => env('CLUBKONNECT_ACCOUNT_BANK'),
+            'account_name' => env('CLUBKONNECT_ACCOUNT_NAME'),
+            'total' => DB::table('transactions')->where('json->type','vtu_transaction')->whereNot('status','rejected')->count(),
+            'today' => DB::table('transactions')->where('json->type','vtu_transaction')->whereNot('status','rejected')->whereDate('date',Carbon::today())->count(),
+            'api_settings' => json_decode(DB::table('settings')->where('key','api_settings')->first()->value ?? '{}'),
+            'prices' => $prices,
+             'cable_plans' => $cable_plans
+        ]);
     }
 
 

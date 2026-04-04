@@ -96,7 +96,7 @@
                 <span>Message</span>
             </div>
               {{-- new item --}}
-            <div class="column g-5 align-center">
+            <div onclick="Redirect('{{ url('users/pricing') }}')" class="column g-5 align-center">
                 <div style="color:var(--primary);background:var(--primary-01)" class="h-40 br-10 perfect-square no-shrink column align-center justify-center">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,184H64a8,8,0,0,1,0-16h8a8,8,0,0,1,0,16Zm0-48H64a8,8,0,0,1,0-16h8a8,8,0,0,1,0,16Zm0-48H64a8,8,0,0,1,0-16h8a8,8,0,0,1,0,16Zm120,96H104a8,8,0,0,1,0-16h88a8,8,0,0,1,0,16Zm0-48H104a8,8,0,0,1,0-16h88a8,8,0,0,1,0,16Zm0-48H104a8,8,0,0,1,0-16h88a8,8,0,0,1,0,16Z"></path></svg>
 
