@@ -211,6 +211,43 @@ class AdminsPostRequestController extends Controller
         ]);
     }
     
+      // finance settings
+    public function FinanceSettings(){
+        $message='Finance settings updated success';
+        $key='finance_settings';
+        $value=[
+        'deposit' => [
+            'min' => request('min_deposit') ?? '',
+            'max' => request('max_deposit') ?? '',
+            'fee' => [
+                'method' => request('deposit_fee_method') ?? '',
+                'amount' => request('deposit_fee_amount')
+            ]
+        ],
+        
+        ];
+       if(DB::table('settings')->where('key',$key)->exists()){
+     DB::table('settings')->where('key',$key)->update([
+             'value' => json_encode($value),
+            'updated' => Carbon::now()
+        ]);
+       }else{
+         DB::table('settings')->insert([
+            'key' => $key,
+            'value' => json_encode($value),
+            'status' => 'active',
+            'updated' => Carbon::now(),
+            'date' => Carbon::now()
+        ]);
+       }
+        
+
+        return response()->json([
+            'message' => $message,
+            'status' => 'success'
+        ]);
+    }
+
     // api settings
     public function APISettings(){
             $message='API settings updated success';

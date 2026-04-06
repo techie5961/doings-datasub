@@ -86,7 +86,7 @@
             <div class="row align-center space-between g-10">
                  <strong class="font-1-5">
                     {{ Auth::guard('users')->user()->currency }}
-                    {{ number_format(Auth::guard('users')->user()->primary_balance,2) }}
+                    {{ number_format(Auth::guard('users')->user()->main_balance,2) }}
                 </strong>
                 <div onclick="MyFunc.Focus()" style="border:4px solid var(--primary-text);" class="h-40 br-1000 no-select overflow-hidden pointer p-10 row align-center justify-center g-10">
                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="15" width="15"><path d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"></path></svg>
@@ -131,9 +131,11 @@
         <strong class="desc">Fund your account</strong>
            </div>
            {{-- deposit form --}}
-           <form action="" class="row bg-light p-10 br-10 align-center justify-center space-between g-10 h-fit">
+           <form action="{{ url('users/post/initiate/deposit/process') }}" method="POST" onsubmit="PostRequest(event,this,MyFunc.Initiated)" class="row bg-light p-10 br-10 align-center justify-center space-between g-10 h-fit">
+          {{-- csrf token --}}
+          <input type="hidden" name="_token" value="{{ @csrf_token() }}" class="inp input">
             <div class="cont border-none bg-transparent h-40">
-                <input placeholder="Enter amount ({{ Auth::guard('users')->user()->currency }})" type="number" name="" id="" class="input amount inp required">
+                <input placeholder="Enter amount ({{ Auth::guard('users')->user()->currency }})" type="number" name="amount" class="input amount inp required">
             </div>
             <button class="h-40 w-fit p-10 br-10 border-none bg-primary primary-text">Deposit</button>
            </form>
@@ -236,7 +238,7 @@
                 <span>Status</span>
             </div>
             {{-- new nav --}}
-            <div class="column w-full align-center g-10">
+            <div onclick="Redirect('users/pricing')" class="column w-full align-center g-10">
                 <div style="background:linear-gradient(to bottom right,var(--primary),var(--primary-dark))" class="column h-50 perfect-square br-10 primary-text align-center justify-center">
                   <div class="highlight">Hot</div>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M244.35,92.8l-104,125.43A15.93,15.93,0,0,1,128,224h0a15.93,15.93,0,0,1-12.31-5.77L11.65,92.8A15.65,15.65,0,0,1,8.11,80.91,15.93,15.93,0,0,1,14.28,70.1,186.67,186.67,0,0,1,128,32,186.67,186.67,0,0,1,241.72,70.1a15.93,15.93,0,0,1,6.17,10.81A15.65,15.65,0,0,1,244.35,92.8Z"></path></svg>
@@ -270,6 +272,12 @@
         window.MyFunc = {
             Focus : function(){
                 document.querySelector('input.amount').focus();
+            },
+            Initiated : function(response){
+            let data=JSON.parse(response);
+            if(data.status == 'success'){
+                window.location.href=data.link;
+            }
             }
         }
     </script>

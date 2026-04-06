@@ -38,7 +38,13 @@ class AdminsDashboardController extends Controller
        $today=DB::table('transactions')->whereDate('date',Carbon::today());
        $sum=DB::table('transactions');
 
-// apending
+       if(!request()->has('initiated')){
+        $transactions=$transactions->whereNot('status','initiated');
+        $total=$total->whereNot('status','initiated');
+        $today=$today->whereNot('status','initiated');
+        $sum=$sum->whereNot('status','initiated');
+       }
+// pending
 
         if(request()->has('type')){
             $transactions=$transactions->where('type',request('type'));
@@ -145,6 +151,8 @@ class AdminsDashboardController extends Controller
             'general_settings' => json_decode(DB::table('settings')->where('key','general_settings')->first()->value ?? '{}'),
             'social_settings' => json_decode(DB::table('settings')->where('key','social_settings')->first()->value ?? '{}'),
              'contact_settings' => json_decode(DB::table('settings')->where('key','contact_settings')->first()->value ?? '{}'),
+             'finance_settings' => json_decode(DB::table('settings')->where('key','finance_settings')->first()->value ?? '{}'),
+
 
         ]);
     }

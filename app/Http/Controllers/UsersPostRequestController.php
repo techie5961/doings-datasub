@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class UsersPostRequestController extends Controller
 {
@@ -212,5 +213,92 @@ class UsersPostRequestController extends Controller
                 'status' => 'success'
             ]);
         }
+    }
+
+    // initiate deposit
+    public function InitiateDeposit(){
+         $finance_settings = json_decode(DB::table('settings')->where('key','finance_settings')->first()->value ?? '{}');
+         if(request('amount') < ($finance_settings->deposit->min ?? '100')){
+            return response()->json([
+                'message' => 'Minimum deposit is '.Auth::guard('users')->user()->currency.''.number_format($finance_settings->deposit->min ?? '100',2).'',
+                'status' => 'error'
+            ]);
+         }
+         $fee_amount=$finance_settings->deposit->fee->amount ?? 0;
+         $fee_method=$finance_settings->deposit->fee->method ?? 'percentage';
+
+         $fee=$fee_amount;
+         if($fee_method == 'percentage'){
+            $fee=($fee_amount * request('amount'))/100;
+
+         }
+       
+
+        $ref=strtoupper(Str::random(12).time());
+        $response=Http::withToken(env('FLUTTERWAVE_SECRET_KEY'))->post('https://api.flutterwave.com/v3/payments',[
+            'tx_ref' => $ref,
+            'amount' => request('amount'),
+            'currency' => 'NGN',
+            'redirect_url' => url('users/flutterwave/deposit/callback'),
+            'customer' => [
+                'email' => Auth::guard('users')->user()->email,
+                'name' => Auth::guard('users')->user()->name
+            ],
+            'customizations' => [
+                'title' => 'Wallet Funding',
+                'description' => ''.config('app.name').' Wallet Funding'
+            ]
+        ]);
+        if($response->successful()){
+            $data=$response->json();
+            // track initiated deposit
+              DB::table('transactions')->insert([
+    'uniqid' => strtoupper(Str::random(10)),
+    'user_id' => Auth::guard('users')->user()->id,
+    'title' => 'Wallet Funding',
+    'class' => 'credit',
+    'type' => 'deposit',
+    'amount' => request('amount'),
+     'fee' => $fee,
+    'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M224,104v96a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V104A16,16,0,0,1,48,88H208A16,16,0,0,1,224,104ZM56,72H200a8,8,0,0,0,0-16H56a8,8,0,0,0,0,16ZM72,40H184a8,8,0,0,0,0-16H72a8,8,0,0,0,0,16Z"></path></svg>',
+    'wallet' => json_encode([
+         'from' => [
+            'method' => 'flutterwave',
+            'ref' => $ref
+        ],
+        'to' => 'main_balance',
+       
+
+    ]),
+    'json' => json_encode([
+    'balance' => [
+        'before' => Auth::guard('users')->user()->main_balance,
+        'after' => Auth::guard('users')->user()->main_balance
+    ],
+    'primary_wallet' => 'Main Wallet',
+    
+
+    ]),
+    'data' => json_encode([
+        'gateway' => 'Flutterwave',
+        'reference' => $ref
+    ]),
+    'status' => 'initiated',
+    'updated' => Carbon::now(),
+    'date' => Carbon::now()
+    ]);
+
+
+            return response()->json([
+                'message' => 'Redirecting to payment',
+                'status' => 'success',
+                'link' => $data['data']['link']
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Unable to initiate deposit,please try again',
+            'status' => 'error'
+        ]);
     }
 }

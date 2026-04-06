@@ -22,17 +22,31 @@ class UserDashboardController extends Controller
     public function Dashboard(){
         return view('users.dashboard',[
               'social_settings' => json_decode(DB::table('settings')->where('key','social_settings')->first()->value ?? '{}'),
+               'finance_settings' => json_decode(DB::table('settings')->where('key','finance_settings')->first()->value ?? '{}'),
+
         ]);
     }
     // transactions
    public function Transactions(){
-    $transactions=DB::table('transactions')->where('user_id',Auth::guard('users')->user()->id);
+    $transactions=DB::table('transactions')->where('user_id',Auth::guard('users')->user()->id)->whereNot('status','initiated');
     
     $transactions=$transactions->orderBy('date','desc')->paginate(10);
-    return view('users.transactions',[
-        'trx' => $transactions
+    $transactions->getCollection()->transform(function($each){
+    $each->frame=Carbon::parse($each->date)->diffForHumans();
+    return $each;
+    });
+    return view('users.transactions.index',[
+        'transactions' => $transactions
     ]);
    }
+    // transaction receipt
+    public function TransactionReceipt(){
+        $trx=DB::table('transactions')->where('id',request('id'))->first();
+        $trx->frame=Carbon::parse($trx->date)->format('d M Y H:i');
+        return view('users.transactions.receipt',[
+            'data' => $trx
+        ]);
+    }
      //  support
      public function Support(){
         return view('users.support',[

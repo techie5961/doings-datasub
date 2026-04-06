@@ -54,6 +54,10 @@ Route::get('users/dashboard',[
 Route::get('users/transactions',[
     UserDashboardController::class,'Transactions'
 ]);
+// transaction receipt
+Route::get('users/transaction/receipt',[
+    UserDashboardController::class,'TransactionReceipt'
+]);
 // support
 Route::get('users/support',[
     UserDashboardController::class,'Support'
@@ -94,6 +98,10 @@ Route::get('users/calculator',[
 Route::get('users/pricing',[
     UserDashboardController::class,'Pricing'
 ]);
+// flutterwave callback
+Route::get('users/flutterwave/deposit/callback',[
+    UserGetRequestController::class,'FlutterWaveCallback'
+]);
 
 
 
@@ -110,6 +118,10 @@ Route::post('users/post/update/transactin/pin/process',[
 // update profile photo
 Route::post('users/post/update/profile/photo/process',[
     UsersPostRequestController::class,'UpdateProfilePhoto'
+]);
+// initiate deposit
+Route::post('users/post/initiate/deposit/process',[
+    UsersPostRequestController::class,'InitiateDeposit'
 ]);
 
 
@@ -246,6 +258,10 @@ Route::post('admins/post/social/settings/process',[
 // contact settings
 Route::post('admins/post/contact/settings/process',[
     AdminsPostRequestController::class,'ContactSettings'
+]);
+// finance settings
+Route::post('admins/post/finance/settings/process',[
+    AdminsPostRequestController::class,'FinanceSettings'
 ]);
 // api settings
 Route::post('admins/post/api/settings/process',[

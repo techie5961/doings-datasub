@@ -83,7 +83,7 @@
                                 {{ $data->uniqid }}
                             </div>
                             {{-- trx status --}}
-                            <div class="status {{ $data->status == 'pending' ? 'gold' : ($data->status == 'success' ? 'green' : 'red') }} ">{{ $data->status }}</div>
+                            <div class="status {{ $data->status == 'success' ? 'green' : ($data->status == 'rejected' ? 'red' : 'gold') }} ">{{ $data->status }}</div>
                         </div>
                         {{-- new row --}}
                        <div class="row w-full align-center g-10 space-between">

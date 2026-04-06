@@ -26,6 +26,7 @@ class UsersDashboardMiddleware
         foreach($name as $data){
         $inititals.=substr($data,0,1);
         }
+        View::share('currency',Auth::guard('users')->user()->currency);
         View::share('inititals',strtoupper($inititals));
         return $next($request);
     }

@@ -53,6 +53,14 @@
 
             <span>Contact</span>
         </div>
+           {{-- new head --}}
+        <div onclick="MyFunc.SwitchForm(this,'.finance-settings-form')" style="border:1px solid var(--primary-01)" class="p-10 settings-head g-10 p-x-20 row align-center heads bg-light br-10 c-primary">
+            <span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M208,48H48A24,24,0,0,0,24,72V184a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V72A24,24,0,0,0,208,48Zm-56,72a24,24,0,0,1-48,0,8,8,0,0,0-8-8H40V96H216v16H160A8,8,0,0,0,152,120ZM48,64H208a8,8,0,0,1,8,8v8H40V72A8,8,0,0,1,48,64Z"></path></svg>
+      </span>
+
+            <span>Finance</span>
+        </div>
         
        </div>
         {{-- GENERAL SETTINGS --}}
@@ -243,6 +251,80 @@
               
                   </div>
            
+
+           
+           
+           
+            {{-- submit button --}}
+            <button class="post">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M208,32H83.31A15.86,15.86,0,0,0,72,36.69L36.69,72A15.86,15.86,0,0,0,32,83.31V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM128,184a32,32,0,1,1,32-32A32,32,0,0,1,128,184ZM172,80a4,4,0,0,1-4,4H88a4,4,0,0,1-4-4V48h88Z"></path></svg>
+
+                </span>
+                <span>Save Changes</span>
+            </button>
+        </form>
+
+           {{-- FINANCE SETTINGS --}}
+        <form method="POST" onsubmit="PostRequest(event,this)" action="{{ url('admins/post/finance/settings/process') }}" style="border:1px solid var(--rgt-01);box-shadow:0 5px 10px rgba(0,0,0,0.1)" class="w-full column finance-settings-form settings-form g-10 bg-light br-20 p-20">
+           
+            <div class="row m-bottom-10 c-primary g-5 align-center">
+                <span>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="30" width="30"><path d="M208,48H48A24,24,0,0,0,24,72V184a24,24,0,0,0,24,24H208a24,24,0,0,0,24-24V72A24,24,0,0,0,208,48Zm-56,72a24,24,0,0,1-48,0,8,8,0,0,0-8-8H40V96H216v16H160A8,8,0,0,0,152,120ZM48,64H208a8,8,0,0,1,8,8v8H40V72A8,8,0,0,1,48,64Z"></path></svg>
+             </span>
+                <strong class="desc">Finance Settings</strong>
+            </div>
+            {{-- csrf token --}}
+            <input type="hidden" class="inp input" name="_token" value="{{ @csrf_token() }}">
+            {{-- new input --}}
+            <div class="column g-5 w-full">
+               <div class="column g-2">
+                 <label>Minimum Deposit</label>
+                <small class="opacity-05">Enter minimum deposit/funding amount in naira(min=100)</small>
+                </div> 
+                <div class="cont">
+                    <input value="{{ $finance_settings->deposit->min ?? '' }}" name="min_deposit" min="100" type="number" placeholder="E.g 100" class="inp required input">
+                </div>
+              
+                  </div>
+                  {{-- new input --}}
+            <div class="column g-5 w-full">
+               <div class="column g-2">
+                 <label>Maximum Deposit</label>
+                <small class="opacity-05">Enter maximum deposit/funding amount in naira(min=1000,000)</small>
+                </div> 
+                <div class="cont">
+                    <input value="{{ $finance_settings->deposit->max ?? '' }}" name="max_deposit" min="100" type="number" placeholder="E.g 1000,000" class="inp required input">
+                </div>
+              
+                  </div>
+                      {{-- new input --}}
+            <div class="column g-5 w-full">
+               <div class="column g-2">
+                 <label>Deposit Fee Method</label>
+                <small class="opacity-05">Select deposit fee method</small>
+                </div> 
+                <div class="cont">
+                    <select name="deposit_fee_method" class="inp required input">
+                        <option {{ $finance_settings->deposit->fee->method == 'percentage' ? 'selected' : '' }} value="percentage">Percentage(%)</option>
+                        <option {{ $finance_settings->deposit->fee->method == 'direct' ? 'selected' : '' }} value="direct">Direct(₦)</option>
+                    </select>
+                    </div>
+              
+                  </div>
+                   {{-- new input --}}
+            <div class="column g-5 w-full">
+               <div class="column g-2">
+                 <label>Deposit Fee Amount</label>
+                <small class="opacity-05">Enter deposit fee amount/value(Enter zero(0) if no deposit fee)</small>
+                </div> 
+                <div class="cont">
+                    <input value="{{ $finance_settings->deposit->fee->amount ?? '' }}" name="deposit_fee_amount" type="number" placeholder="E.g 100" class="inp required input">
+                </div>
+              
+                  </div>
+            
+                 
 
            
            

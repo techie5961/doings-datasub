@@ -429,6 +429,8 @@
                         <a href="{{ url('admins/transactions?type=deposit&status=pending') }}">Pending Deposits</a>
                         <a href="{{ url('admins/transactions?type=deposit&status=success') }}">Successfull Deposits</a>
                         <a href="{{ url('admins/transactions?type=deposit&status=rejected') }}">Rejected Deposits</a>
+                        <a href="{{ url('admins/transactions?type=deposit&status=initiated&initiated=true') }}">Initiated Deposits</a>
+               
                     </div>
                 </div>
                  {{-- new nav a --}}

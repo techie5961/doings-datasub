@@ -23,6 +23,9 @@
     // 'class' => 'credit',
     // 'type' => 'welcome_bonus',
     // 'amount' => 500,
+    //   'fee' => $fee,
+    // 'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M224,104v96a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V104A16,16,0,0,1,48,88H208A16,16,0,0,1,224,104ZM56,72H200a8,8,0,0,0,0-16H56a8,8,0,0,0,0,16ZM72,40H184a8,8,0,0,0,0-16H72a8,8,0,0,0,0,16Z"></path></svg>',
+   
     // 'wallet' => json_encode([
     //     'from' => 'admin',
     //     'to' => 'main_balance',
@@ -34,6 +37,8 @@
     //     'after' => 500
     // ],
     // 'primary_wallet' => 'Main Wallet'
+
+    
 
     // ]),
     // 'status' => 'success',
@@ -48,6 +53,9 @@
     // 'class' => 'debit',
     // 'type' => 'withdrawal',
     // 'amount' => 6000,
+      //   'fee' => $fee,
+    // 'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M224,104v96a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V104A16,16,0,0,1,48,88H208A16,16,0,0,1,224,104ZM56,72H200a8,8,0,0,0,0-16H56a8,8,0,0,0,0,16ZM72,40H184a8,8,0,0,0,0-16H72a8,8,0,0,0,0,16Z"></path></svg>',
+ 
     // 'wallet' => json_encode([
     //     'from' => 'main_balance',
     //     'to' => [
@@ -65,6 +73,7 @@
     // ],
     // 'primary_wallet' => 'Main Wallet'
 
+
     // ]),
     // 'status' => 'rejected',
     // 'updated' => Carbon::now(),
@@ -78,6 +87,9 @@
     // 'class' => 'credit',
     // 'type' => 'deposit',
     // 'amount' => 6000,
+      //   'fee' => $fee,
+    // 'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M224,104v96a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V104A16,16,0,0,1,48,88H208A16,16,0,0,1,224,104ZM56,72H200a8,8,0,0,0,0-16H56a8,8,0,0,0,0,16ZM72,40H184a8,8,0,0,0,0-16H72a8,8,0,0,0,0,16Z"></path></svg>',
+ 
     // 'wallet' => json_encode([
     //      'from' => [
     //         'method' => 'bank',
@@ -97,6 +109,7 @@
     // ],
     // 'primary_wallet' => 'Main Wallet'
 
+
     // ]),
     // 'status' => 'rejected',
     // 'updated' => Carbon::now(),
@@ -110,6 +123,9 @@
     // 'class' => 'debit',
     // 'type' => 'airtime_topup',
     // 'amount' => 6000,
+      //   'fee' => $fee,
+    // 'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M224,104v96a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V104A16,16,0,0,1,48,88H208A16,16,0,0,1,224,104ZM56,72H200a8,8,0,0,0,0-16H56a8,8,0,0,0,0,16ZM72,40H184a8,8,0,0,0,0-16H72a8,8,0,0,0,0,16Z"></path></svg>',
+ 
     // 'wallet' => json_encode([
     //      'from' => 'main_balance',
     //      'to' => [
@@ -128,7 +144,7 @@
     //     'after' => 4000
     // ],
     // 'primary_wallet' => 'Main Wallet',
-    // 'fee' => 100,
+    
     // 'api_response' => $response,
     // 'type' => 'vtu_transaction'
 

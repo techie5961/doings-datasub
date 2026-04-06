@@ -63,8 +63,8 @@
         <div style="border:1px solid var(--primary-01)" class="p-10 c-primary p-x-20 br-1000 w-fit">{{ strtoupper($data->uniqid) }}</div>
             
         {{-- transaction status --}}
-        <div class="status {{ $data->status == 'success' ? 'green' : ($data->status == 'pending' ? 'gold' : 'red') }}">{{ $data->status }}</div>
-
+        <div class="status {{ $data->status == 'success' ? 'green' : ($data->status == 'rejected' ? 'red' : 'gold') }} ">{{ $data->status }}</div>
+        
         {{-- trabsaction date --}}
         <div style="border:1px solid var(--primary-01);background:var(--primary-005);color:var(--primary-05)" class="w-fit p-10 p-x-20 br-1000">
             {{ $data->day }} &bull; {{ $data->time }}

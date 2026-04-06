@@ -672,7 +672,7 @@ button.disabled{
     justify-content: center;
     gap:10px;
     font-family: var(--font);
-    border-bottom:2px solid hsl(var(--primary-hsl),50%,30%);
+    border-bottom:4px solid hsl(var(--primary-hsl),50%,30%);
     --height:20px;
     --size:0.8rem;
 }

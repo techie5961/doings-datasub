@@ -20,6 +20,12 @@ class DBController extends Controller
     $table->timestamp('date')->useCurrent();
     });   
     }
+
+    if(!Schema::hasColumn('transactions','data')){
+        Schema::table('transactions',function($table){
+            $table->json('data')->after('json')->nullable();
+        });
+    }
     return response()->json([
         'message' => 'Queries ran successfull',
         'status' => 'success'
