@@ -306,8 +306,8 @@
                 </div> 
                 <div class="cont">
                     <select name="deposit_fee_method" class="inp required input">
-                        <option {{ $finance_settings->deposit->fee->method == 'percentage' ? 'selected' : '' }} value="percentage">Percentage(%)</option>
-                        <option {{ $finance_settings->deposit->fee->method == 'direct' ? 'selected' : '' }} value="direct">Direct(₦)</option>
+                        <option {{ $finance_settings->deposit->fee->method ?? 'percentage' == 'percentage' ? 'selected' : '' }} value="percentage">Percentage(%)</option>
+                        <option {{ $finance_settings->deposit->fee->method ?? 'percentage' == 'direct' ? 'selected' : '' }} value="direct">Direct(₦)</option>
                     </select>
                     </div>
               
