@@ -25,7 +25,7 @@ class UserGetRequestController extends Controller
                     $id=$trx->first()->id;
              
                 DB::table('users')->where('id',Auth::guard('users')->user()->id)->update([
-                    json_decode($trx->first()->wallet)->to => DB::raw(''.json_decode($trx->first()->wallet)->to.' + '.$trx->first()->amount.''),
+                    json_decode($trx->first()->wallet)->to => DB::raw(''.json_decode($trx->first()->wallet)->to.' + '.$trx->first()->amount - $trx->first()->fee.''),
                     'updated' => Carbon::now()
                 ]);
                 $balance_after=json_decode($trx->first()->json)->balance->after + $trx->first()->amount;
