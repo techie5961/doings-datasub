@@ -330,12 +330,12 @@ class UsersPostRequestController extends Controller
         }
         
 
-        // if($amount < 100){
-        //     return response()->json([
-        //         'message' => 'Please enter an amount greater than or equal to '.Auth::guard('users')->user()->currency.'100',
-        //         'status' => 'error'
-        //     ]);
-        // }
+        if($amount < 50){
+            return response()->json([
+                'message' => 'Please enter an amount greater than or equal to '.Auth::guard('users')->user()->currency.'100',
+                'status' => 'error'
+            ]);
+        }
 
         if(!Hash::check($pin,Auth::guard('users')->user()->pin)){
             return response()->json([

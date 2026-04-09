@@ -67,7 +67,7 @@
             <div class="column g-5 w-full">
                 <label>Amount</label>
                 <div class="cont">
-                    <input type="number" name="amount" placeholder="Enter amount(min: ₦100)" inputmode="numeric" class="inp input required">
+                    <input type="number" name="amount" placeholder="Enter amount(min: ₦50)" inputmode="numeric" class="inp input required">
                 </div>
             </div>
              
