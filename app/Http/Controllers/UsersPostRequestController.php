@@ -301,4 +301,137 @@ class UsersPostRequestController extends Controller
             'status' => 'error'
         ]);
     }
+
+    // topup airtime
+    public function TopupAirtime(){
+    $pin=request('pin');
+    $network=request('network');
+    $phone=request('phone');
+    $amount=request('amount');
+    $network_code=collect(MobileNetworks())->get($network)->api_code;
+    $uniqid=GenerateID();
+    $fee=0;
+
+     // sanitize phone number
+        if(str::startsWith($phone,'234')){
+            $phone=Str::replaceFirst('234','',$phone);
+        }
+        if(str::startsWith($phone,'0')){
+            $phone=Str::replaceFirst('0','',$phone);
+        }
+        $phone='0'.$phone;
+
+        // make sure its valid phone number
+        if(strlen($phone) != 11){
+            return response()->json([
+                'message' => 'Please enter a valid phone number',
+                'status' => 'error'
+            ]);
+        }
+        
+
+        // if($amount < 100){
+        //     return response()->json([
+        //         'message' => 'Please enter an amount greater than or equal to '.Auth::guard('users')->user()->currency.'100',
+        //         'status' => 'error'
+        //     ]);
+        // }
+
+        if(!Hash::check($pin,Auth::guard('users')->user()->pin)){
+            return response()->json([
+                'message' => 'Invalid transaction pin',
+                'status' => 'error'
+            ]);
+        }
+        
+        if($amount > Auth::guard('users')->user()->main_balance){
+            return response()->json([
+                'message' => 'Insufficient balance,topup your account to continue',
+                'status' => 'error'
+            ]);
+        }
+
+        $response=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APIAirtimeV1.asp',[
+                'UserID' => env('CLUBKONNECT_USER_ID'),
+                'APIKey' => env('CLUBKONNECT_API_KEY'),
+                'MobileNetwork' => $network_code,
+                'Amount' => $amount,
+                'MobileNumber' => $phone,
+                'RequestID' => $uniqid,
+                'CallBackURL' => url('users/get/clubkonnect/airtime/topup/callback')
+        ]);
+
+        if($response->successful()){
+           $data=$response->json();
+        //    return $data;
+
+        //    order received and is currently processing
+           if($data['status'] == 'ORDER_RECEIVED'){
+            $balance=Auth::guard('users')->user()->main_balance;
+            // debit user
+            DB::table('users')->where('id',Auth::guard('users')->user()->id)->update([
+                'main_balance' => DB::raw('main_balance - '.$amount.''),
+                'updated' => Carbon::now()
+            ]);
+            // insert into transactions
+  DB::table('transactions')->insert([
+    'uniqid' => $uniqid,
+    'user_id' => Auth::guard('users')->user()->id,
+    'title' => 'Airtime Topup',
+    'class' => 'debit',
+    'type' => 'airtime_topup',
+    'amount' => $amount,
+        'fee' => $fee,
+    'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M231.88,175.08A56.26,56.26,0,0,1,176,224C96.6,224,32,159.4,32,80A56.26,56.26,0,0,1,80.92,24.12a16,16,0,0,1,16.62,9.52l21.12,47.15,0,.12A16,16,0,0,1,117.39,96c-.18.27-.37.52-.57.77L96,121.45c7.49,15.22,23.41,31,38.83,38.51l24.34-20.71a8.12,8.12,0,0,1,.75-.56,16,16,0,0,1,15.17-1.4l.13.06,47.11,21.11A16,16,0,0,1,231.88,175.08Z"></path></svg>',
+ 
+    'wallet' => json_encode([
+         'from' => 'main_balance',
+         'to' => [
+            'mobile_number' => $phone,
+            'mobile_network' => $network,
+            
+         
+        ],
+        
+       
+
+    ]),
+    'json' => json_encode([
+    'balance' => [
+        'before' => $balance,
+        'after' => Auth::guard('users')->user()->main_balance
+    ],
+    'primary_wallet' => 'Main Wallet',
+    
+    'api_response' => $response,
+    'type' => 'vtu_transaction'
+
+    ]),
+    'data' => json_encode([
+        'orderid' => $data['orderid'],
+        'statuscode' => $data['statuscode'],
+        'mobilenetwork' => $data['mobilenetwork'],
+        'mobilenumber' => $data['mobilenumber']
+    ]),
+    'status' => 'success',
+    'updated' => Carbon::now(),
+    'date' => Carbon::now()
+    ]);
+           }
+    $trx_id=DB::table('transactions')->where('uniqid',$uniqid)->where('user_id',Auth::guard('users')->user()->id)->first()->id;
+           return response()->json([
+            'message' => 'Airtime topup successful,contact admin if you encounter any issues',
+            'receipt' => url('users/transaction/receipt?id='.$trx_id.''),
+            'status' => 'success'
+           ]);
+        
+        }
+
+
+
+    return response()->json([
+        'message' => 'Internal server error,please try again',
+        'status' => 'error'
+    ]);
+    }
 }

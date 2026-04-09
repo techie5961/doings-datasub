@@ -120,4 +120,9 @@ class UserDashboardController extends Controller
         ]);
     }
 
+    // airtime topup
+    public function AirtimeTopup(){
+        return view('users.vtu.airtime');
+    }
+
 }
