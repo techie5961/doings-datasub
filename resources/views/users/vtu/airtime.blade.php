@@ -83,7 +83,7 @@
             </div>
             <strong class="desc">Are you sure?</strong>
             <div class="opacity-07">
-                You are about to purchase an <span class="modal-network bold" style="opacity:1">AIRTEL</span> airtime of <span class="modal-amount bold" style="opacity:1">N500.00</span> for the phone number <span class="modal-phone bold" style="opacity:1">08118768360</span>. <br>
+                You are about to purchase <span class="modal-network bold" style="opacity:1">AIRTEL</span> airtime of <span class="modal-amount bold" style="opacity:1">N500.00</span> for the phone number <span class="modal-phone bold" style="opacity:1">08118768360</span>. <br>
                <span class="c-red">Please ensure the mobile number and network selected is correctly selected and entered to avaoid loss of funds</span><br>
                 <span>Do you wish to continue?</span>
             </div>
