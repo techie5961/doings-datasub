@@ -156,6 +156,15 @@
                 <span class="opacity-05">Reference/ID</span>
                 <div class="br-1000 p-5 p-x-10 c-primary bold" style="border:1px solid var(--primary-01);background:var(--primary-005)">{{ $data->uniqid }}</div>
             </div>
+            {{-- other data --}}
+            @isset($data->data)
+                @foreach (json_decode($data->data) as $key => $value)
+                     <div class="w-full space-between row g-10 align-center">
+                <span class="opacity-05">{{ ucwords($key) }}</span>
+                <div class="br-1000 p-5 p-x-10 c-primary bold" style="border:1px solid var(--primary-01);background:var(--primary-005)">{{ $value }}</div>
+            </div> 
+                @endforeach
+            @endisset
 
 
 
