@@ -32,7 +32,7 @@
 @section('main')
     <section class="w-full column g-10">
         {{-- topup form --}}
-        <form action="{{ url('users/post/airtime/topup/process') }}" method="POST" onsubmit="PostRequest(event,this,MyFunc.Completed)" style="box-shadow:0px 0px 10px rgba(0,0,0,0.1)" class="w-full br-20 column g-10 p-20 bg-light">
+        <form action="{{ url('users/post/airtime/topup/process') }}" method="POST" tonsubmit="PostRequest(event,this,MyFunc.Completed)" style="box-shadow:0px 0px 10px rgba(0,0,0,0.1)" class="w-full br-20 column g-10 p-20 bg-light">
            {{-- csrf token --}}
            <input type="hidden" name="_token" value="{{ @csrf_token() }}" class="inp input">
            {{-- trx pin --}}
