@@ -44,7 +44,7 @@ class AdminsPostRequestController extends Controller
         
         if(request()->has('title')){
              DB::table('transactions')->insert([
-    'uniqid' => strtoupper(Str::random(10)),
+    'uniqid' => GenerateID(),
     'user_id' => request('user_id'),
     'title' => ucwords(strtolower(request('title'))),
     'class' => 'credit',
@@ -86,7 +86,7 @@ class AdminsPostRequestController extends Controller
         
         if(request()->has('title')){
              DB::table('transactions')->insert([
-    'uniqid' => strtoupper(Str::random(10)),
+    'uniqid' => GenerateID(),
     'user_id' => request('user_id'),
     'title' => ucwords(strtolower(request('title'))),
     'class' => 'debit',

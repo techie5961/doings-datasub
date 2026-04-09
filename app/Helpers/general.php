@@ -128,6 +128,6 @@ function MobileNetworks(){
 
 // generate id
 function GenerateID(){
-  return Str::random(12);
+  return substr(strtoupper(Str::random(8).time()),0,16);
 }
 ?>

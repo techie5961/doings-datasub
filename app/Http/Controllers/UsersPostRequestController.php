@@ -69,7 +69,7 @@ class UsersPostRequestController extends Controller
         }
         // insert into database
         DB::table('users')->insert([
-            'uniqid' => strtoupper(Str::random(12)),
+            'uniqid' => GenerateID(),
             'username' => $phone,
             'phone' => $phone,
             'country' => 'Nigeria',
@@ -234,7 +234,7 @@ class UsersPostRequestController extends Controller
          }
        
 
-        $ref=strtoupper(Str::random(12).time());
+        $ref=GenerateID();
         $response=Http::withToken(env('FLUTTERWAVE_SECRET_KEY'))->post('https://api.flutterwave.com/v3/payments',[
             'tx_ref' => $ref,
             'amount' => request('amount'),
@@ -253,7 +253,7 @@ class UsersPostRequestController extends Controller
             $data=$response->json();
             // track initiated deposit
               DB::table('transactions')->insert([
-    'uniqid' => strtoupper(Str::random(10)),
+    'uniqid' => GenerateID(),
     'user_id' => Auth::guard('users')->user()->id,
     'title' => 'Wallet Funding',
     'class' => 'credit',
