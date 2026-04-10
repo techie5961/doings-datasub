@@ -71,7 +71,11 @@
                      </div>
                     {{-- amount/status --}}
                         <div style="text-align:end;" class="column c-primary m-left-auto g-5">
-                            <strong>{{ $currency }}{{ number_format($data->amount,2) }}</strong>
+                            @if ($data->class == 'debit')
+                                <strong class="c-red">-{{ $currency }}{{ number_format($data->amount,2) }}</strong>
+                            @else
+                                <strong>+{{ $currency }}{{ number_format($data->amount,2) }}</strong>
+                            @endif
                             <div class="status m-right-auto {{ $data->status == 'success' ? 'green' : ($data->status == 'pending' ? 'gold' : 'red') }}">{{ $data->status }}</div>
                         </div>
                     </div>

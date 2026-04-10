@@ -125,4 +125,18 @@ class UserDashboardController extends Controller
         return view('users.vtu.airtime');
     }
 
+     // data topup
+    public function DataTopup(){
+         $data=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APIDatabundlePlansV2.asp',[
+            'UserID' => env('CLUBKONNECT_USER_ID')
+        ]);
+        if($data->successful()){
+            $data_plans=$data->json();
+        }
+        // return $data_plans;
+        return view('users.vtu.data',[
+            'data_plans' => $data_plans
+        ]);
+    }
+
 }

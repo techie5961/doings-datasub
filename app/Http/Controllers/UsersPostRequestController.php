@@ -399,7 +399,7 @@ class UsersPostRequestController extends Controller
     'json' => json_encode([
     'balance' => [
         'before' => $balance,
-        'after' => Auth::guard('users')->user()->main_balance
+        'after' => $balance - $amount
     ],
     'primary_wallet' => 'Main Wallet',
     
@@ -421,6 +421,138 @@ class UsersPostRequestController extends Controller
     $trx_id=DB::table('transactions')->where('uniqid',$uniqid)->where('user_id',Auth::guard('users')->user()->id)->first()->id;
            return response()->json([
             'message' => 'Airtime topup successful,contact admin if you encounter any issues',
+            'receipt' => url('users/transaction/receipt?id='.$trx_id.''),
+            'status' => 'success'
+           ]);
+        
+        }
+
+
+
+    return response()->json([
+        'message' => 'Internal server error,please try again',
+        'status' => 'error'
+    ]);
+    }
+
+      // topup data
+    public function TopupData(){
+    $pin=request('pin');
+    $network=request('network');
+    $phone=request('phone');
+    $amount=request('amount');
+    $network_code=collect(MobileNetworks())->get($network)->api_code;
+    $uniqid=GenerateID();
+    $plan=request('plan');
+    $fee=0;
+   
+
+     // sanitize phone number
+        if(str::startsWith($phone,'234')){
+            $phone=Str::replaceFirst('234','',$phone);
+        }
+        if(str::startsWith($phone,'0')){
+            $phone=Str::replaceFirst('0','',$phone);
+        }
+        $phone='0'.$phone;
+
+        // make sure its valid phone number
+        if(strlen($phone) != 11){
+            return response()->json([
+                'message' => 'Please enter a valid phone number',
+                'status' => 'error'
+            ]);
+        }
+        
+
+      
+
+        if(!Hash::check($pin,Auth::guard('users')->user()->pin)){
+            return response()->json([
+                'message' => 'Invalid transaction pin',
+                'status' => 'error'
+            ]);
+        }
+        
+        if($amount > Auth::guard('users')->user()->main_balance){
+            return response()->json([
+                'message' => 'Insufficient balance,topup your account to continue',
+                'status' => 'error'
+            ]);
+        }
+
+        $response=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APIDatabundleV1.asp',[
+                'UserID' => env('CLUBKONNECT_USER_ID'),
+                'APIKey' => env('CLUBKONNECT_API_KEY'),
+                'MobileNetwork' => $network_code,
+                'DataPlan' => $plan,
+                'MobileNumber' => $phone,
+                'RequestID' => $uniqid,
+                'CallBackURL' => url('users/get/clubkonnect/data/topup/callback')
+        ]);
+
+        if($response->successful()){
+           $data=$response->json();
+        //    return $data;
+
+        //    order received and is currently processing
+           if($data['status'] == 'ORDER_RECEIVED'){
+           
+            $balance=Auth::guard('users')->user()->main_balance;
+            // debit user
+            DB::table('users')->where('id',Auth::guard('users')->user()->id)->update([
+                'main_balance' => DB::raw('main_balance - '.$amount.''),
+                'updated' => Carbon::now()
+            ]);
+            // insert into transactions
+  DB::table('transactions')->insert([
+    'uniqid' => $uniqid,
+    'user_id' => Auth::guard('users')->user()->id,
+    'title' => 'Data Topup',
+    'class' => 'debit',
+    'type' => 'data_topup',
+    'amount' => $amount,
+        'fee' => $fee,
+    'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M144,204a16,16,0,1,1-16-16A16,16,0,0,1,144,204ZM239.61,83.91a176,176,0,0,0-223.22,0,12,12,0,1,0,15.23,18.55,152,152,0,0,1,192.76,0,12,12,0,1,0,15.23-18.55Zm-32.16,35.73a128,128,0,0,0-158.9,0,12,12,0,0,0,14.9,18.81,104,104,0,0,1,129.1,0,12,12,0,0,0,14.9-18.81ZM175.07,155.3a80.05,80.05,0,0,0-94.14,0,12,12,0,0,0,14.14,19.4,56,56,0,0,1,65.86,0,12,12,0,1,0,14.14-19.4Z"></path></svg>',
+ 
+    'wallet' => json_encode([
+         'from' => 'main_balance',
+         'to' => [
+            'mobile_number' => $phone,
+            'mobile_network' => $network,
+            
+         
+        ],
+        
+       
+
+    ]),
+    'json' => json_encode([
+    'balance' => [
+        'before' => $balance,
+        'after' => $balance - $amount
+    ],
+    'primary_wallet' => 'Main Wallet',
+    
+    'api_response' => $response,
+    'type' => 'vtu_transaction'
+
+    ]),
+    'data' => json_encode([
+        'orderid' => $data['orderid'],
+        'statuscode' => $data['statuscode'],
+        'productname' => $data['productname'],
+        'mobilenetwork' => $data['mobilenetwork'],
+        'mobilenumber' => $data['mobilenumber']
+    ]),
+    'status' => 'success',
+    'updated' => Carbon::now(),
+    'date' => Carbon::now()
+    ]);
+           }
+    $trx_id=DB::table('transactions')->where('uniqid',$uniqid)->where('user_id',Auth::guard('users')->user()->id)->first()->id;
+           return response()->json([
+            'message' => 'Data topup successful,contact admin if you encounter any issues',
             'receipt' => url('users/transaction/receipt?id='.$trx_id.''),
             'status' => 'success'
            ]);

@@ -31,27 +31,52 @@
 @endsection
 @section('main')
     <section class="w-full column g-10">
+
+        <template class="data-plans">
+            @foreach ($data_plans['MOBILE_NETWORK'] as $network_name => $details)
+      
+       <template class="network-{{ $details[0]['ID'] }}">
+        <option value="" selected disabled>Click to choose...</option>
+            @foreach ($details as $detail)
+                @foreach ($detail['PRODUCT'] as $plans)
+                <option data-price="{{ FormatPrice($plans['PRODUCT_AMOUNT'],'subscriber') }}" value="{{ $plans['PRODUCT_ID'] }}"><div>{{ $plans['PRODUCT_NAME'] }}</div></option>
+                    
+                @endforeach
+            @endforeach
+        
+       </template>
+            
+        @endforeach
+        </template>
         {{-- topup form --}}
-        <form action="{{ url('users/post/airtime/topup/process') }}" method="POST" onsubmit="PostRequest(event,this,MyFunc.Completed)" style="box-shadow:0px 0px 10px rgba(0,0,0,0.1)" class="w-full br-20 column g-10 p-20 bg-light">
+        <form action="{{ url('users/post/data/topup/process') }}" method="POST" onsubmit="PostRequest(event,this,MyFunc.Completed)" style="box-shadow:0px 0px 10px rgba(0,0,0,0.1)" class="w-full br-20 column g-10 p-20 bg-light">
            {{-- csrf token --}}
            <input type="hidden" name="_token" value="{{ @csrf_token() }}" class="inp input">
            {{-- trx pin --}}
             <input type="hidden" name="pin" class="inp input">
-            <strong class="c-primary">Airtime for all Networks</strong>
-            <strong class="desc">Buy Airtime</strong>
+            <strong class="c-primary">Data for all Networks</strong>
+            <strong class="desc">Buy Data</strong>
             {{-- networks --}}
             <label>Select Network</label>
             {{-- network hidden input --}}
             <input type="hidden" name="network" class="inp input">
             <div class="w-full grid grid-2 pc-grid-4 g-10">
                 @foreach (MobileNetworks() as $name => $network)
-                    <div onclick="MyFunc.ChooseNetwork(this,'{{ $name }}')" class="network">
+                    <div onclick="MyFunc.ChooseNetwork(this,'{{ $name }}',' {{ $network->api_code }}')" class="network">
                         <img src="{{ asset('photos/networks/'.$network->logo.'') }}" style="border-radius:50%;box-shadow:0px 0px 10px rgba(0,0,0,0.1)" alt="" class="h-40 w-40 min-w-40 min-h-40">
                    <strong class="desc">{{ $network->name }}</strong>
                     </div>
                 @endforeach
             </div>
-
+            {{-- new input --}}
+            <div class="column display-none data-plans w-full g-5">
+                <label>Select Data Plan</label>
+                <div class="cont">
+                <select onchange="MyFunc.DataPlanSelected(this)" name="plan" class="inp required input">
+                    
+                </select>
+            </div>
+            </div>
             {{-- new input --}}
             <div class="column g-5 w-full">
                 <label>Phone Number</label>
@@ -65,13 +90,16 @@
             </label>
              {{-- new input --}}
             <div class="column g-5 w-full">
-                <label>Amount</label>
+                <label>Amount To Pay</label>
                 <div class="cont">
-                    <input type="number" name="amount" placeholder="Enter amount(min: ₦50)" inputmode="numeric" class="inp input required">
+                 <div class="h-full perfect-square column align-center justify-center">
+                    {{ $currency }}
+                    </div> 
+                     <input readonly type="number" name="amount" placeholder="Amount to pay" inputmode="numeric" class="inp input required">
                 </div>
             </div>
              
-           <div onclick="MyFunc.OpenConfirmationModal(this)" class="w-full btn br-1000 row align-center border-none justify-center bg-primary primary-text no-selecvt pc-pointer m-top-10 p-10 h-50 g-10">Buy Airtime</div>
+           <div onclick="MyFunc.OpenConfirmationModal(this)" class="w-full btn br-1000 row align-center border-none justify-center bg-primary primary-text no-selecvt pc-pointer m-top-10 p-10 h-50 g-10">Buy Data</div>
         </form>
     </section>
     {{-- confirmation modal --}}
@@ -83,7 +111,7 @@
             </div>
             <strong class="desc">Are you sure?</strong>
             <div class="opacity-07">
-                You are about to purchase <span class="modal-network bold" style="opacity:1">AIRTEL</span> airtime of <span class="modal-amount bold" style="opacity:1">N500.00</span> for the phone number <span class="modal-phone bold" style="opacity:1">08118768360</span>. <br>
+                You are about to purchase <span class="modal-network bold" style="opacity:1">AIRTEL</span> <span class="modal-amount bold" style="opacity:1">N500.00</span> for the phone number <span class="modal-phone bold" style="opacity:1">08118768360</span>. <br>
                <span class="c-red">Please ensure the mobile number and network selected is correctly selected and entered to avoid loss of funds</span><br>
                 <span>Do you wish to continue?</span>
             </div>
@@ -116,13 +144,23 @@
 @section('js')
     <script class="js">
         window.MyFunc = {
-            ChooseNetwork : function(element,network_key){
-                let networks=document.querySelectorAll('.network');
+            ChooseNetwork : function(element,network_key,api_code){
+              
+            try{
+                    let networks=document.querySelectorAll('.network');
                 networks.forEach((data)=>{
                     data.classList.remove('active');
                 });
+                let div=document.createElement('div');
+                div.innerHTML=document.querySelector('template.data-plans').innerHTML;
+                
+             document.querySelector('div.data-plans .cont select.inp').innerHTML=div.querySelector('template.network-' + api_code.trim()).innerHTML;
+                document.querySelector('div.data-plans').classList.remove('display-none');
                element.classList.add('active');
                document.querySelector('input[name=network]').value=network_key;
+            }catch(error){
+                alert(error.stack)
+            }
               
             },
             CloseConfirmationModal : function(){
@@ -143,7 +181,7 @@
                 });
                 if(!is_empty){
                     document.querySelector('.modal.confirmation').querySelector('.modal-network').innerHTML=(document.querySelector('input[name=network]').value).toUpperCase();
-                    document.querySelector('.modal.confirmation').querySelector('.modal-amount').innerHTML='{{ $currency }}' + (parseFloat(document.querySelector('input[name=amount]').value).toLocaleString('en-Us'));
+                    document.querySelector('.modal.confirmation').querySelector('.modal-amount').innerHTML=document.querySelector('select[name=plan]').options[document.querySelector('select[name=plan]').selectedIndex].text;
                     document.querySelector('.modal.confirmation').querySelector('.modal-phone').innerHTML=document.querySelector('input[name=phone]').value;
                   
                     document.querySelector('.modal.confirmation').classList.add('active');
@@ -180,6 +218,11 @@
                 if(data.status == 'success'){
                     Redirect(data.receipt);
                 }
+            },
+            DataPlanSelected : (element)=>{
+                let selected_option=element.options[element.selectedIndex];
+                document.querySelector('input[name=amount]').value=selected_option.dataset.price;
+               
             }
 
         }

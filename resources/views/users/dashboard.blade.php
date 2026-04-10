@@ -147,7 +147,7 @@
         {{-- navs --}}
         <div style="box-shadow:0 0 10px rgba(0,0,0,0.1)" class="grid navs w-full bg-light grid-4 br-10 p-10 g-10 place-center">
           {{-- new nav --}}
-            <div class="column w-full align-center g-10">
+            <div onclick="Redirect('{{ url('users/data/topup') }}')" class="column w-full align-center g-10">
                 <div style="background:linear-gradient(to bottom right,var(--primary),var(--primary-dark))" class="column h-50 perfect-square br-10 primary-text align-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M244.35,92.8l-104,125.43A15.93,15.93,0,0,1,128,224h0a15.93,15.93,0,0,1-12.31-5.77L11.65,92.8A15.65,15.65,0,0,1,8.11,80.91,15.93,15.93,0,0,1,14.28,70.1,186.67,186.67,0,0,1,128,32,186.67,186.67,0,0,1,241.72,70.1a15.93,15.93,0,0,1,6.17,10.81A15.65,15.65,0,0,1,244.35,92.8Z"></path></svg>
 

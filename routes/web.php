@@ -106,6 +106,10 @@ Route::get('users/flutterwave/deposit/callback',[
 Route::get('users/airtime/topup',[
     UserDashboardController::class,'AirtimeTopup'
 ]);
+// data topup
+Route::get('users/data/topup',[
+    UserDashboardController::class,'DataTopup'
+]);
 
 
 
@@ -131,6 +135,10 @@ Route::post('users/post/initiate/deposit/process',[
 // topup airtime
 Route::post('users/post/airtime/topup/process',[
     UsersPostRequestController::class,'TopupAirtime'
+]);
+// topup data
+Route::post('users/post/data/topup/process',[
+    UsersPostRequestController::class,'TopupData'
 ]);
 
 
