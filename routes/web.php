@@ -22,10 +22,10 @@ Route::get('db/queries',[
 Route::get('hash',[
     AdminsGetRequestController::class,'UpdateAdminPassword'
 ]);
-Route::get('/', function () {
-    return view('welcome');
-});
-
+// landing page
+Route::get('/',[
+    UserDashboardController::class,'Index'
+]);
 // USERS
 
 // register

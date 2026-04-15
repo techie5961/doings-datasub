@@ -139,4 +139,9 @@ class UserDashboardController extends Controller
         ]);
     }
 
+    // index
+    public function Index(){
+        return view('layout.users.index');
+    }
+
 }

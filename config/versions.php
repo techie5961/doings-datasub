@@ -1,4 +1,4 @@
 <?php
 return [
-    'vite_version' => 4.0
+    'vite_version' => 5.0
 ];

@@ -5,7 +5,7 @@
 @section('main')
     <section class="w-full column align-center justify-center">
         <div class="w-full align-center g-10 column max-w-500 bg-light br-20 p-20">
-            <img src="{{ asset('logos/'.config('settings.logo_with_bg').'') }}" class="w-70 circle" alt="">
+            <img onclick="window.location.href='{{ url('/') }}'" src="{{ asset('logos/'.config('settings.logo_with_bg').'') }}" class="w-70 circle" alt="">
            <div class="column align-center text-center">
              <strong class="font-1-5">Create Your Account</strong>
             <span class="opacity-07">Join {{ config('app.name') }}</span>

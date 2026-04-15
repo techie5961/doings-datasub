@@ -18,7 +18,7 @@
      /* text color */
     --text:black;
      /* primary font */
-    --font:'Instrument Sans';
+    --font:'dm sans';
     /* color on element with background as primary color */
     --primary-text:white;
     /* rgt hex value for text */
@@ -337,7 +337,7 @@ main{
    margin:10px 10px 10px 20%;
    background:white;
     display:flex;
-    border-radius:10px;
+    border-radius:5px;
     flex-direction:column;
     align-items:center;
     gap:5px;
@@ -407,6 +407,10 @@ main{
 }
 .notify.error{
      border-left:5px solid red;
+   
+}
+.notify.info{
+     border-left:5px solid blue;
    
 }
 .notify.error .body .icon{
@@ -623,7 +627,7 @@ button.active{
     pointer-events:none;
 }
 button.disabled{
-    filter:grayscale(90%);
+    filter:grayscale(50%);
     pointer-events:none;
 }
 
@@ -2137,6 +2141,7 @@ button.post.active .working{
 }
 .no-select{
     user-select:none;
+    -webkit-user-select:none;
 }
 .no-resize{
     resize: none;
