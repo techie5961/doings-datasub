@@ -143,5 +143,53 @@ class UserDashboardController extends Controller
     public function Index(){
         return view('layout.users.index');
     }
+    
+    // statistics
+    public function Statistics(){
+        
+        return view('users.statistics',[
+            'total_trx' => DB::table('transactions')->where('user_id',Auth::guard('users')->user()->id)->where('status','success')->count(),
+            'this_week' => DB::table('transactions')->where('user_id',Auth::guard('users')->user()->id)->where('json->type','vtu_transaction')->where('status','success')->where('date',[
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])->sum('amount'),
+            'this_month' => DB::table('transactions')->where('user_id',Auth::guard('users')->user()->id)->where('json->type','vtu_transaction')->whereMonth('status','success')->where('date',now()->month())->whereYear('date',now()->year())->sum('amount'),
+             'total_spent' => DB::table('transactions')->where('user_id',Auth::guard('users')->user()->id)->where('json->type','vtu_transaction')->whereMonth('status','success')->sum('amount'),
+             'total_funding' => DB::table('transactions')->where('status','success')->where('user_id',Auth::guard('users')->user()->id)->where('type','deposit')->sum('amount')
+            
+        ]);
+    }
+
+    // network status
+    public function NetworkStatus(){
+        return view('users.network');
+    }
+
+    // agent
+    public function Agent(){
+        return view('users.agent.index',[
+            'settings' => json_decode(DB::table('settings')->where('key','cost_configuration')->first()->value ?? '{}')
+        ]);
+    }
+
+    // vendor
+    public function Vendor(){
+        return view('users.vendor.index',[
+            'settings' => json_decode(DB::table('settings')->where('key','cost_configuration')->first()->value ?? '{}')
+        ]);
+    }
+    
+    // faqs
+    public function FAQs(){
+        return view('users.faqs');
+    }
+    
+    // chat
+    public function Chat(){
+        $chats=DB::table('chats')->where('user_id',Auth::guard('users')->user()->id)->limit(100)->orderBy('date','desc')->reorder('date','asc')->get();
+        return view('users.chat',[
+            'chats' => $chats
+        ]);
+    }
 
 }

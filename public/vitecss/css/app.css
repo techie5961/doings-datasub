@@ -18,7 +18,7 @@
      /* text color */
     --text:black;
      /* primary font */
-    --font:'dm sans';
+    --font:'DM Sans';
     /* color on element with background as primary color */
     --primary-text:white;
     /* rgt hex value for text */
@@ -135,6 +135,29 @@ html,body{
     font-size:14px;
 
 
+}
+
+.loading-state{
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    background:var(--bg);
+    color:var(--primary);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content: center;
+    text-align:center;
+    z-index:1000000;
+}
+.loading-state svg{
+    height:100px;
+    width:100px;
+}
+body:has(.loading-state){
+    overflow:hidden;
 }
 .cont{
     width:100%;

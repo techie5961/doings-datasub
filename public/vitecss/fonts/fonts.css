@@ -313,106 +313,173 @@
 } */
 
 /*dm sans */
- @font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-Black.ttf');
-    font-weight: 900;
-}
-@font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-BlackItalic.ttf');
-    font-weight: 900;
-    font-style: italic;
-}
-@font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-Bold.ttf');
-    font-weight: 700;
-}
-@font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-BoldItalic.ttf');
-    font-weight: 700;
-    font-style: italic;
-}
-@font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-ExtraBold.ttf');
-    font-weight: 800;
-}
-@font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-ExtraBoldItalic.ttf');
-    font-weight: 800;
-    font-style: italic;
-}
-@font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-ExtraLight.ttf');
-    font-weight:200;
-}
-@font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-ExtraLightItalic.ttf');
-    font-weight: 200;
-    font-style: italic;
-}
-@font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-Italic.ttf');
-    font-weight: 400;
-    font-style: italic;
-}
-@font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-Light.ttf');
-    font-weight: 300;
-}
-@font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-LightItalic.ttf');
-    font-weight: 300;
-    font-style: italic;
-}
-@font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-Medium.ttf');
-    font-weight: 500;
-}
-@font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-MediumItalic.ttf');
-    font-weight: 500;
-    font-style: italic;
-}
-@font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-Regular.ttf');
-    font-weight: 400;
+ /* public/vitecss/fonts/fonts.css */
 
+/* -------------------------------
+   Variable Fonts
+-------------------------------- */
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/DMSans-VariableFont_opsz,wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/DMSans-Italic-VariableFont_opsz,wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* -------------------------------
+   Static Fonts (Fallback)
+-------------------------------- */
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
 }
 @font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-SemiBold.ttf');
-    font-weight: 600;
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-ThinItalic.ttf') format('truetype');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
 }
 @font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-SemiBoldItalic.ttf');
-    font-weight: 600;
-    font-style: italic;
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-ExtraLightItalic.ttf') format('truetype');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
 }
 @font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-Thin.ttf');
-    font-weight: 100;
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-LightItalic.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 @font-face {
-    font-family: 'dm sans';
-    src: url('DM_Sans/static/DMSans-ThinItalic.ttf');
-    font-weight: 100;
-    font-style: italic;
-} 
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-SemiBoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'DM Sans';
+  src: url('DM_Sans/static/DMSans-BlackItalic.ttf') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
 
 /* bowl */
 /* @font-face {
@@ -489,8 +556,8 @@
     font-weight: 100;
     font-style: italic;
    
-}
- */
+} */
+
 
 /* montserrat */
 /* @font-face {
@@ -594,4 +661,129 @@
   font-stretch: 100%;
   src: url(instrument_sans/instrument-sans-latin-ext-600-normal.woff2) format('woff2'), url(instrument_sans/instrument-sans-latin-ext-600-normal.woff2) format('woff'); 
   unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+} */
+/* inter */
+/* fonts.css — place in your root directory */
+
+/* INTER — All weights including Extra Bold & Black */
+/* 
+@font-face {
+  font-family: 'Inter';
+  src: url('/vitecss/fonts/inter/static/Inter_18pt-Thin.ttf') format('truetype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/vitecss/fonts/inter/static/Inter_18pt-ExtraLight.ttf') format('truetype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/vitecss/fonts/inter/static/Inter_18pt-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/vitecss/fonts/inter/static/Inter_18pt-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/vitecss/fonts/inter/static/Inter_18pt-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/vitecss/fonts/inter/static/Inter_18pt-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/vitecss/fonts/inter/static/Inter_18pt-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/vitecss/fonts/inter/static/Inter_18pt-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/vitecss/fonts/inter/static/Inter_18pt-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/vitecss/fonts/inter/static/Inter_18pt-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/vitecss/fonts/inter/static/Inter_18pt-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/vitecss/fonts/inter/static/Inter_18pt-ExtraBoldItalic.ttf') format('truetype');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/vitecss/fonts/inter/static/Inter_18pt-BlackItalic.ttf') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'Inter Variable';
+  src: url('/vitecss/fonts/inter/Inter-VariableFont_opsz,wght.ttf') format('truetype-variations');
+  font-weight: 100 900;
+  font-display: swap;
 } */

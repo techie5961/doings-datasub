@@ -25,6 +25,10 @@
     {{-- include action loader for post requests,get requests and spa loading --}}
     @include('components.utilities',[
         'action_loader' => true
+    ])  
+{{-- include general codes --}}
+    @include('components.utilities',[
+        'general_codes' => true
     ])
     <header>
 

@@ -322,13 +322,42 @@
             }
 
         }
-       
+       .cookie{
+        display:flex;
+        flex-direction: column;
+        gap:10px;
+        color:var(--text);
+        position: fixed;
+        bottom: 0;
+        width:100%;
+        background:var(--bg-light);
+        z-index:3000;
+        padding:20px;
+        border:1px solid var(--primary);
+        max-width:500px;
+
+       }
     </style>
 </head>
 <body>
+   <section class="cookie">
+    <div>
+        🍪 {{ config('app.name') }} uses analytics to understand how people use the site. No personal data is sold.
+
+    </div>
+   <div class="row no-select g-10">
+     <div onclick="this.closest('.cookie').remove()" style="border:1px solid var(--rgt-07);color:var(--rgt-07);" class="w-fit no-select br-5 p-10 p-x-20">Decline</div>
+    <div onclick="AcceptCookies(this)" style="background: var(--primary);color:var(--primary-text);" class="p-10 p-x-20 br-5 w-fit">Accept & Continue</div>
+  
+   </div>
+</section>
      {{-- include action loader for post requests,get requests and spa loading --}}
     @include('components.utilities',[
         'action_loader' => true
+    ])  
+{{-- include general codes --}}
+    @include('components.utilities',[
+        'general_codes' => true
     ])
     <header>
        {{-- logo group --}}
@@ -965,7 +994,17 @@ let items=document.querySelectorAll('.observe');
 items.forEach((item)=>{
     observer.observe(item);
 })
+
+if(localStorage.getItem('cookie') == 'true'){
+    document.querySelector('.cookie').remove();
+}
 });
+
+function AcceptCookies(element){
+   
+    localStorage.setItem('cookie','true');
+    element.closest('.cookie').remove();
+}
     
   </script>
   {{-- yield js --}}

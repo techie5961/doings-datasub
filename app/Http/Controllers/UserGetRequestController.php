@@ -43,4 +43,35 @@ class UserGetRequestController extends Controller
         
         
     }
+
+    // send chat
+    public function SendChat(){
+        $message=request('message');
+        $insert=DB::table('chats')->insert([
+            'user_id' => Auth::guard('users')->user()->id,
+            'uniqid' => GenerateID(),
+            'message' => $message,
+            'sent_by' => 'me',
+            'status' => 'unread',
+            'updated' => Carbon::now(),
+            'date' => Carbon::now()
+        ]);
+        if($insert){
+            DB::table('chats')->where('user_id',Auth::guard('users')->user()->id)->where('auto_reply','yes')->delete();
+            DB::table('chats')->insert([
+                'user_id' => Auth::guard('users')->user()->id,
+            'uniqid' => GenerateID(),
+            'message' => 'Thank you for your message,our support team would reply you soon',
+            'auto_reply' => 'yes',
+            'sent_by' => '',
+            'status' => 'unread',
+            'updated' => Carbon::now(),
+            'date' => Carbon::now()
+        ]);
+        }
+        return response()->json([
+            'message' => 'Thank you for your message,our support team would reply you soon',
+            'status' => 'success'
+        ]);
+    }
 }

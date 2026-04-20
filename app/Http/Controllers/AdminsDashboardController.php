@@ -221,6 +221,34 @@ class AdminsDashboardController extends Controller
         ]);
     }
 
+    // upgrade configuarion
+    public function UpgradeConfiguration(){
+        return view('admins.settings.upgrade',[
+            'settings' => json_decode(DB::table('settings')->where('key','cost_configuration')->first()->value ?? '{}')
+        ]);
+    }
+
+    // support messages
+    public function SupportMessages(){
+        $messages=DB::table('chats')->groupBy('user_id')->select('user_id')->orderBy('date','desc')->paginate(10);
+     
+        $messages->getCollection()->transform(function($each){
+        $each->data=DB::table('chats')->where('user_id',$each->user_id)->orderBy('date','desc')->first();
+        return $each;
+       });
+        return view('admins.support',[
+            'messages' => $messages
+        ]);
+    }
+
+    // chat
+    public function Chat(){
+        $chats=DB::table('chats')->where('user_id',request('user_id'))->whereNot('auto_reply','yes')->paginate(100);
+        return view('admins.chat',[
+            'chats' => $chats
+        ]);
+    }
+
 
    
 }

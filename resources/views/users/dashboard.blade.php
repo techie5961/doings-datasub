@@ -62,6 +62,31 @@
             white-space: nowrap;
 
           }
+          .support-chat{
+            position: fixed;
+            right:20px;
+            bottom:20px;
+            height: 70px;
+            aspect-ratio:1;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap:10px;
+            background:var(--primary);
+            color:var(--primary-text);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 50%;
+            /* animation: breathe 15s ease infinite; */
+          }
+          @keyframes breathe{
+           50%{
+                transform: translateY(-30px);
+            }
+            0,100%{
+                transform: translateY(0)
+            }
+          }
 
           @media(min-width:800px){
              .navs > div{
@@ -163,7 +188,7 @@
                 <span>Airtime</span>
             </div>
              {{-- new nav --}}
-            <div class="column w-full align-center g-10">
+            <div onclick="Redirect('{{ url('users/biolls') }}')" class="column w-full align-center g-10">
                 <div style="background:linear-gradient(to bottom right,var(--primary),var(--primary-dark))" class="column h-50 perfect-square br-10 primary-text align-center justify-center">
                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M213.85,125.46l-112,120a8,8,0,0,1-13.69-7l14.66-73.33L45.19,143.49a8,8,0,0,1-3-13l112-120a8,8,0,0,1,13.69,7L153.18,90.9l57.63,21.61a8,8,0,0,1,3,12.95Z"></path></svg>
 
@@ -171,7 +196,7 @@
                 <span>Bills</span>
             </div>
              {{-- new nav --}}
-            <div class="column w-full align-center g-10">
+            <div onclick="Redirect('{{ url('users/cable/tv') }}')" class="column w-full align-center g-10">
                 <div style="background:linear-gradient(to bottom right,var(--primary),var(--primary-dark))" class="column h-50 perfect-square br-10 primary-text align-center justify-center">
                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M216,64H147.31l34.35-34.34a8,8,0,1,0-11.32-11.32L128,60.69,85.66,18.34A8,8,0,0,0,74.34,29.66L108.69,64H40A16,16,0,0,0,24,80V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V80A16,16,0,0,0,216,64Zm0,136H40V80H216V200ZM200,100v80a4,4,0,0,1-4,4H60a4,4,0,0,1-4-4V100a4,4,0,0,1,4-4H196A4,4,0,0,1,200,100Z"></path></svg>
 
@@ -204,7 +229,7 @@
                 <span>Airtime</span>
             </div>
             {{-- new nav --}}
-            <div class="column w-full align-center g-10">
+            <div onclick="Redirect('{{ url('users/data/topup') }}')" class="column w-full align-center g-10">
                 <div style="background:linear-gradient(to bottom right,var(--primary),var(--primary-dark))" class="column h-50 perfect-square br-10 primary-text align-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M244.35,92.8l-104,125.43A15.93,15.93,0,0,1,128,224h0a15.93,15.93,0,0,1-12.31-5.77L11.65,92.8A15.65,15.65,0,0,1,8.11,80.91,15.93,15.93,0,0,1,14.28,70.1,186.67,186.67,0,0,1,128,32,186.67,186.67,0,0,1,241.72,70.1a15.93,15.93,0,0,1,6.17,10.81A15.65,15.65,0,0,1,244.35,92.8Z"></path></svg>
 
@@ -213,7 +238,7 @@
             </div>
             
              {{-- new nav --}}
-            <div class="column w-full align-center g-10">
+            <div onclick="Redirect('{{ url('users/agent') }}')" class="column w-full align-center g-10">
                 <div style="background:linear-gradient(to bottom right,var(--primary),var(--primary-dark))" class="column h-50 perfect-square br-10 primary-text align-center justify-center">
                 <div class="highlight">New</div>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M112,136V72h19.47a16.09,16.09,0,0,1,13.72,7.77L165.72,114a16.06,16.06,0,0,1,2.28,8.24V216a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V122.22A16.06,16.06,0,0,1,42.28,114L62.81,79.77A16.09,16.09,0,0,1,76.53,72H96v64a8,8,0,0,0,16,0Zm112,24a16,16,0,0,1-16-16V64A56,56,0,0,0,96,64v8h16V64a40,40,0,0,1,80,0v80a32,32,0,0,0,32,32,8,8,0,0,0,0-16Z"></path></svg>
@@ -222,7 +247,7 @@
                 <span>Agent</span>
             </div>
              {{-- new nav --}}
-            <div class="column w-full align-center g-10">
+            <div onclick="Redirect('{{ url('users/statistics') }}')" class="column w-full align-center g-10">
                 <div style="background:linear-gradient(to bottom right,var(--primary),var(--primary-dark))" class="column h-50 perfect-square br-10 primary-text align-center justify-center">
                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40ZM200,192H56a8,8,0,0,1-8-8V72a8,8,0,0,1,16,0v76.69l34.34-34.35a8,8,0,0,1,11.32,0L128,132.69,172.69,88H144a8,8,0,0,1,0-16h48a8,8,0,0,1,8,8v48a8,8,0,0,1-16,0V99.31l-50.34,50.35a8,8,0,0,1-11.32,0L104,131.31l-40,40V176H200a8,8,0,0,1,0,16Z"></path></svg>
                    
@@ -230,7 +255,7 @@
                 <span>Statistics</span>
             </div>
              {{-- new nav --}}
-            <div class="column w-full align-center g-10">
+            <div onclick="Redirect('{{ url('users/network/status') }}')" class="column w-full align-center g-10">
                 <div style="background:linear-gradient(to bottom right,var(--primary),var(--primary-dark))" class="column h-50 perfect-square br-10 primary-text align-center justify-center">
                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M232,208a8,8,0,0,1-8,8H32a8,8,0,0,1,0-16h8V136a8,8,0,0,1,8-8H72a8,8,0,0,1,8,8v64H96V88a8,8,0,0,1,8-8h32a8,8,0,0,1,8,8V200h16V40a8,8,0,0,1,8-8h40a8,8,0,0,1,8,8V200h8A8,8,0,0,1,232,208Z"></path></svg>
 
@@ -238,7 +263,7 @@
                 <span>Status</span>
             </div>
             {{-- new nav --}}
-            <div onclick="Redirect('users/pricing')" class="column w-full align-center g-10">
+            <div onclick="Redirect('{{ url('users/pricing') }}')" class="column w-full align-center g-10">
                 <div style="background:linear-gradient(to bottom right,var(--primary),var(--primary-dark))" class="column h-50 perfect-square br-10 primary-text align-center justify-center">
                   <div class="highlight">Hot</div>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M244.35,92.8l-104,125.43A15.93,15.93,0,0,1,128,224h0a15.93,15.93,0,0,1-12.31-5.77L11.65,92.8A15.65,15.65,0,0,1,8.11,80.91,15.93,15.93,0,0,1,14.28,70.1,186.67,186.67,0,0,1,128,32,186.67,186.67,0,0,1,241.72,70.1a15.93,15.93,0,0,1,6.17,10.81A15.65,15.65,0,0,1,244.35,92.8Z"></path></svg>
@@ -248,7 +273,7 @@
             </div>
             
              {{-- new nav --}}
-            <div class="column w-full align-center g-10">
+            <div onclick="CreateNotify('info','This feature is coming soon...')" class="column w-full align-center g-10">
                 <div style="background:linear-gradient(to bottom right,var(--primary),var(--primary-dark))" class="column h-50 perfect-square br-10 primary-text align-center justify-center">
                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM62.29,186.47l2.52-1.65A16,16,0,0,0,72,171.53l.21-36.23L93.17,104a3.62,3.62,0,0,0,.32.22l19.67,12.87a15.94,15.94,0,0,0,11.35,2.77L156,115.59a16,16,0,0,0,10-5.41l22.17-25.76A16,16,0,0,0,192,74V67.67A87.87,87.87,0,0,1,211.77,155l-16.14-14.76a16,16,0,0,0-16.93-3l-30.46,12.65a16.08,16.08,0,0,0-9.68,12.45l-2.39,16.19a16,16,0,0,0,11.77,17.81L169.4,202l2.36,2.37A87.88,87.88,0,0,1,62.29,186.47Z"></path></svg>
 
@@ -256,7 +281,7 @@
                 <span>Own</span>
             </div>
              {{-- new nav --}}
-            <div class="column w-full align-center g-10">
+            <div onclick="Redirect('{{ url('users/vendor') }}')" class="column w-full align-center g-10">
                 <div style="background:linear-gradient(to bottom right,var(--primary),var(--primary-dark))" class="column h-50 perfect-square br-10 primary-text align-center justify-center">
                  <div class="highlight">Hot</div>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M192,16H64A16,16,0,0,0,48,32V224a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V32A16,16,0,0,0,192,16ZM100,200a12,12,0,1,1,12-12A12,12,0,0,1,100,200Zm0-60a12,12,0,1,1,12-12A12,12,0,0,1,100,140Zm0-60a12,12,0,1,1,12-12A12,12,0,0,1,100,80Zm56,120a12,12,0,1,1,12-12A12,12,0,0,1,156,200Zm0-60a12,12,0,1,1,12-12A12,12,0,0,1,156,140Zm0-60a12,12,0,1,1,12-12A12,12,0,0,1,156,80Z"></path></svg>
@@ -265,6 +290,10 @@
                 <span>Vendor</span>
             </div>
         </div>
+        {{-- floating support --}}
+        <section onclick="Redirect('{{ url('users/chat') }}')" class="support-chat">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="30" width="30"><path d="M132,24A100.11,100.11,0,0,0,32,124v84a16,16,0,0,0,16,16h84a100,100,0,0,0,0-200ZM88,140a12,12,0,1,1,12-12A12,12,0,0,1,88,140Zm44,0a12,12,0,1,1,12-12A12,12,0,0,1,132,140Zm44,0a12,12,0,1,1,12-12A12,12,0,0,1,176,140Z"></path></svg>
+        </section>
     </section>
 @endsection
 @section('js')
@@ -280,5 +309,9 @@
             }
             }
         }
+
+        window.addEventListener('load',()=>{
+            document.querySelector('.support-chat').style.bottom=document.querySelector('footer').offsetHeight + 20 + 'px';
+        })
     </script>
 @endsection

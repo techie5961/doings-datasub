@@ -279,4 +279,36 @@ class AdminsPostRequestController extends Controller
             'status' => 'success'
         ]);
     }
+
+       // cost confoguration
+    public function CostConfiguration(){
+            $message='Configuration settings updated success';
+        $key='cost_configuration';
+        $value=[
+        'agent' => request('agent'),
+        'vendor' => request('vendor'),
+        'api' => request('api'),
+       
+        ];
+       if(DB::table('settings')->where('key',$key)->exists()){
+     DB::table('settings')->where('key',$key)->update([
+             'value' => json_encode($value),
+            'updated' => Carbon::now()
+        ]);
+       }else{
+         DB::table('settings')->insert([
+            'key' => $key,
+            'value' => json_encode($value),
+            'status' => 'active',
+            'updated' => Carbon::now(),
+            'date' => Carbon::now()
+        ]);
+       }
+        
+
+        return response()->json([
+            'message' => $message,
+            'status' => 'success'
+        ]);
+    }
 }

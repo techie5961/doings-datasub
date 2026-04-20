@@ -181,6 +181,27 @@ public function SearchUsers(){
      return response('&#8358;'.$data['balance'].'');
     }
 
+    // send chat
+    public function SendChat(){
+         $message=request('message');
+        $insert=DB::table('chats')->insert([
+            'user_id' => request('user_id'),
+            'uniqid' => GenerateID(),
+            'message' => $message,
+            'sent_by' => '',
+            'status' => 'unread',
+            'updated' => Carbon::now(),
+            'date' => Carbon::now()
+        ]);
+         DB::table('chats')->where('user_id',Auth::guard('users')->user()->id)->where('auto_reply','yes')->delete();
+         
+       
+        return response()->json([
+            'message' => 'success',
+            'status' => 'success'
+        ]);
+    }
+
 
 
 }

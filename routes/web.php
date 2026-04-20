@@ -110,7 +110,34 @@ Route::get('users/airtime/topup',[
 Route::get('users/data/topup',[
     UserDashboardController::class,'DataTopup'
 ]);
-
+// statistics
+Route::get('users/statistics',[
+    UserDashboardController::class,'Statistics'
+]);
+// network status
+Route::get('users/network/status',[
+    UserDashboardController::class,'NetworkStatus'
+]);
+// agent
+Route::get('users/agent',[
+    UserDashboardController::class,'Agent'
+]);
+// agent
+Route::get('users/vendor',[
+    UserDashboardController::class,'Vendor'
+]);
+// faqs
+Route::get('users/faqs',[
+    UserDashboardController::class,'FAQs'
+]);
+// chat
+Route::get('users/chat',[
+    UserDashboardController::class,'Chat'
+]);
+// send chat
+Route::get('users/get/send/chat/process',[
+    UserGetRequestController::class,'SendChat'
+]);
 
 
 
@@ -139,6 +166,10 @@ Route::post('users/post/airtime/topup/process',[
 // topup data
 Route::post('users/post/data/topup/process',[
     UsersPostRequestController::class,'TopupData'
+]);
+// upgrade account
+Route::post('users/post/upgrade/account/process',[
+    UsersPostRequestController::class,'UpgradeAccount'
 ]);
 
 
@@ -253,6 +284,22 @@ Route::get('admins/api/management',[
 Route::get('admins/get/api/balance',[
     AdminsGetRequestController::class,'GetAPIBalance'
 ]);
+// upgrade configuration/settings
+Route::get('admins/upgrade/configuration',[
+    AdminsDashboardController::class,'UpgradeConfiguration'
+]);
+// support messages
+Route::get('admins/support/messages',[
+    AdminsDashboardController::class,'SupportMessages'
+]);
+// chat
+Route::get('admins/chat',[
+    AdminsDashboardController::class,'Chat'
+]);
+// send chat
+Route::get('admins/get/reply/chat/process',[
+    AdminsGetRequestController::class,'SendChat'
+]);
 
 
 // ADMINS POST REQUEST(authenticated)
@@ -283,6 +330,10 @@ Route::post('admins/post/finance/settings/process',[
 // api settings
 Route::post('admins/post/api/settings/process',[
     AdminsPostRequestController::class,'APISettings'
+]);
+// cost configuration
+Route::post('admins/post/cost/configuration/process',[
+    AdminsPostRequestController::class,'CostConfiguration'
 ]);
 
 

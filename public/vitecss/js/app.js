@@ -354,11 +354,44 @@ async function SearchRequest(event,element,url,result){
     
 }
 // copy
-function copy(data){
-    if(navigator.clipboard.writeText(data)){
-        CreateNotify('success','copied successfully');
+async function copy(data) {
+    // Helper function for fallback copy (works on older iOS)
+    function fallbackCopy(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.top = '-9999px';
+        textarea.style.left = '-9999px';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        
+        textarea.select();
+        textarea.setSelectionRange(0, text.length);
+        
+        let success = false;
+        
+            success = document.execCommand('copy');
+        
+        
+        document.body.removeChild(textarea);
+        return success;
     }
-} 
+    
+   
+        // Try modern Clipboard API first (newer iPhones iOS 13.4+)
+        if (navigator.clipboard && window.isSecureContext && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(data);
+            CreateNotify('success', 'Copied successfully');
+        } 
+        // Fallback for older iPhones (iOS 9-13.3)
+        else {
+            const success = fallbackCopy(data);
+            if (success) {
+                CreateNotify('success', 'Copied successfully');
+            }
+        }
+    
+}
 // show popup
 function PopUp(data=null){
     if(data !== null){
@@ -441,11 +474,13 @@ function PreviewPhoto(element,label){
 }
 // hide loading
 function HideLoading(){
-    let loading=document.querySelector(".loading");
+    let loading=document.querySelector(".loading-state");
     if(loading){
-        loading.style.display='none'
+        
+        loading.remove()
+        
     }
-        document.body.classList.remove('overflow-hidden');
+        
    
 
 }
@@ -627,11 +662,11 @@ function AutoFill(val,input,element){
 // calling functions
 
 
-
-    window.addEventListener('load',()=>{
+window.addEventListener('load',()=>{
        HideLoading();
     SetWindowHeight();
     UnEmpty();
     
 });
  
+
