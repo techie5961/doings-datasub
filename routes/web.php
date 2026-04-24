@@ -138,6 +138,14 @@ Route::get('users/chat',[
 Route::get('users/get/send/chat/process',[
     UserGetRequestController::class,'SendChat'
 ]);
+// bills
+Route::get('users/bills',[
+    UserDashboardController::class,'Bills'
+]);
+// cable tv
+Route::get('users/cable/tv',[
+    UserDashboardController::class,'CableTV'
+]);
 
 
 
@@ -170,6 +178,14 @@ Route::post('users/post/data/topup/process',[
 // upgrade account
 Route::post('users/post/upgrade/account/process',[
     UsersPostRequestController::class,'UpgradeAccount'
+]);
+// electricity bill
+Route::post('users/post/electricity/bill/process',[
+    UsersPostRequestController::class,'ElectricityBill'
+]);
+// cable tv
+Route::post('users/post/cable/tv/process',[
+    UsersPostRequestController::class,'CableTV'
 ]);
 
 
@@ -300,6 +316,7 @@ Route::get('admins/chat',[
 Route::get('admins/get/reply/chat/process',[
     AdminsGetRequestController::class,'SendChat'
 ]);
+
 
 
 // ADMINS POST REQUEST(authenticated)

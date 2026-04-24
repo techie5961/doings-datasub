@@ -173,7 +173,8 @@
                  window.addEventListener('load',()=>{
                 // document.querySelector('.messages').style.maxHeight=Math.abs(document.querySelector('footer').getBoundingClientRect().top - document.querySelector('header').getBoundingClientRect().bottom - document.querySelector('.chat-box').getBoundingClientRect().height) - 20 + 'px'
                  document.querySelector('.messages').style.maxHeight=window.innerHeight - document.querySelector('header').offsetHeight - document.querySelector('footer').offsetHeight - document.querySelector('.chat-box').offsetHeight + 'px'
-                document.querySelector('.messages').scrollTo({
+                document.querySelector('.messages').style.height=window.innerHeight - document.querySelector('header').offsetHeight - document.querySelector('footer').offsetHeight - document.querySelector('.chat-box').offsetHeight + 'px'
+               document.querySelector('.messages').scrollTo({
                         top : document.querySelector('.messages').scrollHeight,
                         behavior : 'smooth'
                     })

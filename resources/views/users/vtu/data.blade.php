@@ -205,6 +205,12 @@
                 btn.classList.add('display-none');
                 document.querySelector('form').appendChild(btn);
                 btn.click();
+                 if(!element.dataset.text){
+                    element.dataset.text=element.innerHTML;
+
+                }
+                element.innerHTML='processing...';
+                element.classList.add('disabled');
             },
             HidePinModal : ()=>{
                if(document.querySelector('form button')){
@@ -214,10 +220,14 @@
               
             },
             Completed : function(response){
+                 document.querySelector('.modal.pin button').classList.remove('disabled');
+                document.querySelector('.modal.pin button').innerHTML=document.querySelector('.modal.pin button').dataset.text;
+             
                 let data=JSON.parse(response);
                 if(data.status == 'success'){
                     Redirect(data.receipt);
                 }
+
             },
             DataPlanSelected : (element)=>{
                 let selected_option=element.options[element.selectedIndex];

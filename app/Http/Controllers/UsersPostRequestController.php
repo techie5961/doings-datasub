@@ -380,7 +380,7 @@ class UsersPostRequestController extends Controller
     'title' => 'Airtime Topup',
     'class' => 'debit',
     'type' => 'airtime_topup',
-    'amount' => $amount,
+    'amount' => $amount + $fee,
         'fee' => $fee,
     'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M231.88,175.08A56.26,56.26,0,0,1,176,224C96.6,224,32,159.4,32,80A56.26,56.26,0,0,1,80.92,24.12a16,16,0,0,1,16.62,9.52l21.12,47.15,0,.12A16,16,0,0,1,117.39,96c-.18.27-.37.52-.57.77L96,121.45c7.49,15.22,23.41,31,38.83,38.51l24.34-20.71a8.12,8.12,0,0,1,.75-.56,16,16,0,0,1,15.17-1.4l.13.06,47.11,21.11A16,16,0,0,1,231.88,175.08Z"></path></svg>',
  
@@ -417,14 +417,14 @@ class UsersPostRequestController extends Controller
     'updated' => Carbon::now(),
     'date' => Carbon::now()
     ]);
-           }
+          
     $trx_id=DB::table('transactions')->where('uniqid',$uniqid)->where('user_id',Auth::guard('users')->user()->id)->first()->id;
            return response()->json([
             'message' => 'Airtime topup successful,contact admin if you encounter any issues',
             'receipt' => url('users/transaction/receipt?id='.$trx_id.''),
             'status' => 'success'
            ]);
-        
+         }
         }
 
 
@@ -511,7 +511,7 @@ class UsersPostRequestController extends Controller
     'title' => 'Data Topup',
     'class' => 'debit',
     'type' => 'data_topup',
-    'amount' => $amount,
+    'amount' => $amount + $fee,
         'fee' => $fee,
     'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M144,204a16,16,0,1,1-16-16A16,16,0,0,1,144,204ZM239.61,83.91a176,176,0,0,0-223.22,0,12,12,0,1,0,15.23,18.55,152,152,0,0,1,192.76,0,12,12,0,1,0,15.23-18.55Zm-32.16,35.73a128,128,0,0,0-158.9,0,12,12,0,0,0,14.9,18.81,104,104,0,0,1,129.1,0,12,12,0,0,0,14.9-18.81ZM175.07,155.3a80.05,80.05,0,0,0-94.14,0,12,12,0,0,0,14.14,19.4,56,56,0,0,1,65.86,0,12,12,0,1,0,14.14-19.4Z"></path></svg>',
  
@@ -549,14 +549,14 @@ class UsersPostRequestController extends Controller
     'updated' => Carbon::now(),
     'date' => Carbon::now()
     ]);
-           }
+          
     $trx_id=DB::table('transactions')->where('uniqid',$uniqid)->where('user_id',Auth::guard('users')->user()->id)->first()->id;
            return response()->json([
             'message' => 'Data topup successful,contact admin if you encounter any issues',
             'receipt' => url('users/transaction/receipt?id='.$trx_id.''),
             'status' => 'success'
            ]);
-        
+         }
         }
 
 
@@ -632,5 +632,340 @@ class UsersPostRequestController extends Controller
             'message' => ''.ucwords(request('type')).' upgrade successfull',
             'status' => 'success'
         ]);
+    }
+
+    // electricity bill
+    public function ElectricityBill(){
+          $pin=request('pin');
+    $provider=request('provider');
+    $meter_type=request('meter_type');
+    $customer_phone=request('customer_phone');
+    $amount=request('amount');
+   $meter_number=request('meter_number');
+    $uniqid=GenerateID();
+    $plan=request('plan');
+    $fee=0;
+
+    if($amount < 1000){
+        return response()->json([
+            'message' => 'Minimum amount is ₦1,000',
+            'status' => 'error'
+        ]);
+    }
+  $settings=json_decode(DB::table('settings')->where('key','api_settings')->first()->value);
+  if($settings->method == 'percentage'){
+    $fee=($settings->subscriber * $amount)/100;
+  }else{
+    $fee=$settings->subscriber;
+  }
+   
+
+     // sanitize phone number
+        if(str::startsWith($customer_phone,'234')){
+            $customer_phone=Str::replaceFirst('234','',$customer_phone);
+        }
+        if(str::startsWith($customer_phone,'0')){
+            $customer_phone=Str::replaceFirst('0','',$customer_phone);
+        }
+        $customer_phone='0'.$customer_phone;
+
+        // make sure its valid phone number
+        if(strlen($customer_phone) != 11){
+           
+            return response()->json([
+                'message' => 'Please enter a valid phone number',
+                'status' => 'error'
+            ]);
+        }
+        
+
+      
+
+        if(!Hash::check($pin,Auth::guard('users')->user()->pin)){
+            return response()->json([
+                'message' => 'Invalid transaction pin',
+                'status' => 'error'
+            ]);
+        }
+        
+        if(($amount + $fee) > Auth::guard('users')->user()->main_balance){
+            return response()->json([
+                'message' => 'Insufficient balance,topup your account to continue',
+                'status' => 'error'
+            ]);
+        }
+        // verify meter number
+        $verify=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APIVerifyElectricityV1.asp',[
+            'UserID' => env('CLUBKONNECT_USER_ID'),
+            'APIKey' => env('CLUBKONNECT_API_KEY'),
+            'ElectricCompany' => $provider,
+            'MeterNo' => $meter_number,
+            'MeterType' => $meter_type
+        ]);
+        if($verify->successful()){
+           if($verify->json()['customer_name'] == 'N/A'){
+            return response()->json([
+                'message' => 'Invalid Meter Number,check the credentials entered and try again',
+                'status' => 'error'
+            ]);
+           }
+        }
+
+        // buy electricity bill
+
+        $response=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APIElectricityV1.asp',[
+                'UserID' => env('CLUBKONNECT_USER_ID'),
+                'APIKey' => env('CLUBKONNECT_API_KEY'),
+                'ElectricCompany' => $provider,
+                'MeterType' => $meter_type,
+                'MeterNo' => $meter_number,
+                'Amount' => $amount,
+                'PhoneNo' => $customer_phone,
+                'RequestID' => $uniqid,
+                'CallBackURL' => url('users/get/clubkonnect/data/topup/callback')
+        ]);
+
+        if($response->successful()){
+           $data=$response->json();
+        //    return $data;
+
+        //    order received and is currently processing
+           if($data['status'] == 'ORDER_RECEIVED'){
+           
+            $balance=Auth::guard('users')->user()->main_balance;
+            // debit user
+            DB::table('users')->where('id',Auth::guard('users')->user()->id)->update([
+                'main_balance' => DB::raw('main_balance - '.($amount + $fee).''),
+                'updated' => Carbon::now()
+            ]);
+            // insert into transactions
+  DB::table('transactions')->insert([
+    'uniqid' => $uniqid,
+    'user_id' => Auth::guard('users')->user()->id,
+    'title' => 'Electricty Bill',
+    'class' => 'debit',
+    'type' => 'electricity_bill',
+    'amount' => $amount + $fee,
+        'fee' => $fee,
+    'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M176,232a8,8,0,0,1-8,8H88a8,8,0,0,1,0-16h80A8,8,0,0,1,176,232Zm40-128a87.55,87.55,0,0,1-33.64,69.21A16.24,16.24,0,0,0,176,186v6a16,16,0,0,1-16,16H96a16,16,0,0,1-16-16v-6a16,16,0,0,0-6.23-12.66A87.59,87.59,0,0,1,40,104.49C39.74,56.83,78.26,17.14,125.88,16A88,88,0,0,1,216,104Zm-50.34,2.34a8,8,0,0,0-11.32,0L128,132.69l-26.34-26.35a8,8,0,0,0-11.32,11.32L120,147.31V184a8,8,0,0,0,16,0V147.31l29.66-29.65A8,8,0,0,0,165.66,106.34Z"></path></svg>',
+ 
+    'wallet' => json_encode([
+         'from' => 'main_balance',
+         'to' => [
+            'meter_number' => $meter_number,
+            'provider' => $provider,
+            
+         
+        ],
+        
+       
+
+    ]),
+    'json' => json_encode([
+    'balance' => [
+        'before' => $balance,
+        'after' => $balance - ($amount + $fee)
+    ],
+    'primary_wallet' => 'Main Wallet',
+    
+    'api_response' => $response,
+    'type' => 'vtu_transaction'
+
+    ]),
+    'data' => json_encode([
+        'orderid' => $data['orderid'] ?? 'Null',
+        'statuscode' => $data['statuscode'] ?? 'Null',
+        'Meter Number' => $meter_number ?? 'Null',
+        'Provider' => request('provider_name'),
+        'Meter Type' => request('meter_type_name'),
+        'Recipient Phone Number' => $customer_phone,
+        'Meter Number' => $meter_number,
+        'Amount' => Auth::guard('users')->user()->currency.number_format($amount,2),
+        'Total Paid' => Auth::guard('users')->user()->currency.number_format($amount + $fee,2)
+    ]),
+    'status' => 'success',
+    'updated' => Carbon::now(),
+    'date' => Carbon::now()
+    ]);
+          
+    $trx_id=DB::table('transactions')->where('uniqid',$uniqid)->where('user_id',Auth::guard('users')->user()->id)->first()->id;
+           return response()->json([
+            'message' => 'Electricity Bill Payment successful,contact admin if you encounter any issues',
+            'receipt' => url('users/transaction/receipt?id='.$trx_id.''),
+            'status' => 'success'
+           ]);
+         }
+        }
+
+
+
+    return response()->json([
+        'message' => 'Internal server error,please try again',
+        'status' => 'error'
+    ]);
+    }
+
+    // cable tv
+    public function CableTV(){
+          $pin=request('pin');
+    $provider=request('provider');
+    $plan=request('plan');
+    $customer_phone=request('customer_phone');
+    $amount=request('amount');
+   $smartcard_number=request('smartcard_number');
+    $uniqid=GenerateID();
+    $fee=0;
+
+  $settings=json_decode(DB::table('settings')->where('key','api_settings')->first()->value);
+  if($settings->method == 'percentage'){
+    $fee=($settings->subscriber * $amount)/100;
+  }else{
+    $fee=$settings->subscriber;
+  }
+   
+
+     // sanitize phone number
+        if(str::startsWith($customer_phone,'234')){
+            $customer_phone=Str::replaceFirst('234','',$customer_phone);
+        }
+        if(str::startsWith($customer_phone,'0')){
+            $customer_phone=Str::replaceFirst('0','',$customer_phone);
+        }
+        $customer_phone='0'.$customer_phone;
+
+        // make sure its valid phone number
+        if(strlen($customer_phone) != 11){
+        
+            return response()->json([
+                'message' => 'Please enter a valid phone number',
+                'status' => 'error'
+            ]);
+        }
+        
+
+      
+
+        if(!Hash::check($pin,Auth::guard('users')->user()->pin)){
+            return response()->json([
+                'message' => 'Invalid transaction pin',
+                'status' => 'error'
+            ]);
+        }
+        
+        if(($amount + $fee) > Auth::guard('users')->user()->main_balance){
+            return response()->json([
+                'message' => 'Insufficient balance,topup your account to continue',
+                'status' => 'error'
+            ]);
+        }
+        // verify smartcard number
+        $verify=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APIVerifyCableTVV1.0.asp',[
+            'UserID' => env('CLUBKONNECT_USER_ID'),
+            'APIKey' => env('CLUBKONNECT_API_KEY'),
+            'CableTV' => $provider,
+            'SmartCardNo' => $smartcard_number
+        ]);
+        if($verify->successful()){
+           if($verify->json()['customer_name'] == 'INVALID_SMARTCARDNO'){
+            return response()->json([
+                'message' => 'Invalid Smartcard Number,check the credentials entered and try again',
+                'status' => 'error'
+            ]);
+           }
+        }
+
+        // subscribe cable tv
+
+        $response=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APICableTVV1.asp',[
+                'UserID' => env('CLUBKONNECT_USER_ID'),
+                'APIKey' => env('CLUBKONNECT_API_KEY'),
+                'CableTV' => $provider,
+                'Package' => $plan,
+                'SmartCardNo' => $smartcard_number,
+                'Amount' => $amount,
+                'PhoneNo' => $customer_phone,
+                'RequestID' => $uniqid,
+                'CallBackURL' => url('users/get/clubkonnect/data/topup/callback')
+        ]);
+
+        if($response->successful()){
+           $data=$response->json();
+        //    return $data;
+
+        //    order received and is currently processing
+           if($data['status'] == 'ORDER_RECEIVED'){
+           
+            $balance=Auth::guard('users')->user()->main_balance;
+            // debit user
+            DB::table('users')->where('id',Auth::guard('users')->user()->id)->update([
+                'main_balance' => DB::raw('main_balance - '.($amount + $fee).''),
+                'updated' => Carbon::now()
+            ]);
+            // insert into transactions
+  DB::table('transactions')->insert([
+    'uniqid' => $uniqid,
+    'user_id' => Auth::guard('users')->user()->id,
+    'title' => 'Cable TV',
+    'class' => 'debit',
+    'type' => 'cable_tv',
+    'amount' => $amount + $fee,
+        'fee' => $fee,
+    'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M216,64H147.31l34.35-34.34a8,8,0,1,0-11.32-11.32L128,60.69,85.66,18.34A8,8,0,0,0,74.34,29.66L108.69,64H40A16,16,0,0,0,24,80V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V80A16,16,0,0,0,216,64Zm0,136H40V80H216V200ZM200,100v80a4,4,0,0,1-4,4H60a4,4,0,0,1-4-4V100a4,4,0,0,1,4-4H196A4,4,0,0,1,200,100Z"></path></svg>',
+ 
+    'wallet' => json_encode([
+         'from' => 'main_balance',
+         'to' => [
+            'smartcard_number' => $smartcard_number,
+            'provider' => $provider,
+            
+         
+        ],
+        
+       
+
+    ]),
+    'json' => json_encode([
+    'balance' => [
+        'before' => $balance,
+        'after' => $balance - ($amount + $fee)
+    ],
+    'primary_wallet' => 'Main Wallet',
+    
+    'api_response' => $response,
+    'type' => 'vtu_transaction'
+
+    ]),
+    'data' => json_encode([
+        'orderid' => $data['orderid'] ?? 'Null',
+        'statuscode' => $data['statuscode'] ?? 'Null',
+        'Smartcard/IUC Number' => $smartcard_number ?? 'Null',
+        'Provider' => ucwords($provider),
+        'Plan' => request('plan_name'),
+        'Recipient Phone Number' => $customer_phone,
+        'Smartcard/IUC Number' => $smartcard_number,
+        'Recipient Name' => $verify->json()['customer_name'],
+        'Amount' => Auth::guard('users')->user()->currency.number_format($amount,2),
+        'Total Paid' => Auth::guard('users')->user()->currency.number_format($amount + $fee,2)
+    ]),
+    'status' => 'success',
+    'updated' => Carbon::now(),
+    'date' => Carbon::now()
+    ]);
+          
+    $trx_id=DB::table('transactions')->where('uniqid',$uniqid)->where('user_id',Auth::guard('users')->user()->id)->first()->id;
+           return response()->json([
+            'message' => 'Cable TV subscription successful,contact admin if you encounter any issues',
+            'receipt' => url('users/transaction/receipt?id='.$trx_id.''),
+            'status' => 'success'
+           ]);
+         }
+        }
+
+
+
+    return response()->json([
+        'message' => 'Internal server error,please try again',
+        'status' => 'error'
+    ]);
     }
 }

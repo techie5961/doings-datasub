@@ -5,7 +5,7 @@ use Illuminate\Support\Str;
 function Wallets(){
   $wallets= [
     [
-        'key' => 'primary_balance',
+        'key' => 'main_balance',
         'name' => 'Balance',
         'class' => 'general'
     

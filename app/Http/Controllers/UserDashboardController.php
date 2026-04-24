@@ -192,4 +192,31 @@ class UserDashboardController extends Controller
         ]);
     }
 
+    // bills
+    public function Bills(){
+        $provider=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APIElectricityDiscosV2.asp',[
+                    'UserID' => env('CLUBKONNECT_USER_ID')
+        ]);
+        return view('users.vtu.bills',[
+            'providers' => $provider->json(),
+            'settings' => json_decode(DB::table('settings')->where('key','api_settings')->first()->value)
+        ]);
+    }
+
+    // cable tv
+    public function CableTV(){
+        // cable tv plans
+        $cable=Http::withToken(env('CLUBKONNECT_API_KEY'))->get('https://www.nellobytesystems.com/APICableTVPackagesV2.asp',[
+            'UserID' => env('CLUBKONNECT_USER_ID')
+        ]);
+        if($cable->successful()){
+            $cable_plans=$cable->json();
+        }
+        // return $cable_plans['TV_ID']['GOtv'][0]['PRODUCT'][1];
+            return view('users.vtu.tv',[
+                'plans' => $cable_plans,
+                'settings' => json_decode(DB::table('settings')->where('key','api_settings')->first()->value)
+            ]);
+    }
+
 }

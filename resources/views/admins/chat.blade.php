@@ -156,6 +156,7 @@
                    window.addEventListener('load',()=>{
                     //  document.querySelector('.messages').style.paddingBottom=document.querySelector('.chat-box').getBoundingClientRect().height + 'px'
                       document.querySelector('.messages').style.maxHeight=window.innerHeight - document.querySelector('header').offsetHeight + document.querySelector('.chat-box').offsetHeight + 'px'
+                     document.querySelector('.messages').style.height=window.innerHeight - document.querySelector('header').offsetHeight + document.querySelector('.chat-box').offsetHeight + 'px'
                     document.querySelector('.messages').style.paddingBottom=document.querySelector('.chat-box').offsetHeight + 'px';
                      document.querySelector('.messages').style.paddingTop=document.querySelector('header').offsetHeight + 'px';
                    
