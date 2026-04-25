@@ -19,6 +19,7 @@
 
 {{-- vite css --}}
 @isset($vite_css)
+    <link rel="preload" href="{{ asset('vitecss/fonts/fonts.css?v='.config('versions.vite_version').'') }}" as="font" crossorigin>
      <link rel="stylesheet" href="{{ asset('vitecss/fonts/fonts.css?v='.config('versions.vite_version').'') }}">
     <link rel="stylesheet" href="{{ asset('vitecss/css/app.css?v='.config('versions.vite_version').'') }}">
   
