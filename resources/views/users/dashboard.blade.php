@@ -87,7 +87,45 @@
                 transform: translateY(0)
             }
           }
+          .generate-btn{
+            border:none;
+            height:40px;
+            width:100%;
+            font-weight: 600;
+            border-radius:7px;
+            background:linear-gradient(to right,var(--primary-dark),var(--primary));
+            color:var(--primary-text);
+            position:relative;
+            overflow: hidden;
 
+          }
+          .generate-btn::before{
+            content: '';
+            position: absolute;
+            left:0;
+            top:0;
+            bottom:0;
+            background:var(--primary-text);
+            width:20%;
+            opacity:0.1;
+            clip-path: polygon(0% 0%,30% 0%,100% 100%,0% 100%)
+
+
+          }
+           .generate-btn::after{
+            content: '';
+            position: absolute;
+            right:0;
+            top:0;
+            bottom:0;
+            background:var(--primary-text);
+            width:20%;
+            opacity:0.1;
+           clip-path: polygon(0% 0%,100% 0%,100% 100%,0% 0%)
+
+
+          }
+         
           @media(min-width:800px){
              .navs > div{
                 cursor:pointer;
@@ -109,11 +147,11 @@
             </div>
             {{-- new row --}}
             <div class="row align-center space-between g-10">
-                 <strong class="font-1-5">
+                 <strong class="font-size-1-5 font-weight-900">
                     {{ Auth::guard('users')->user()->currency }}
                     {{ number_format(Auth::guard('users')->user()->main_balance,2) }}
                 </strong>
-                <div onclick="MyFunc.Focus()" style="border:4px solid var(--primary-text);" class="h-40 br-1000 no-select overflow-hidden pointer p-10 row align-center justify-center g-10">
+                <div onclick="Focus()" style="border:4px solid var(--primary-text);" class="h-40 br-1000 no-select overflow-hidden pointer p-10 row align-center justify-center g-10">
                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="15" width="15"><path d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"></path></svg>
 
                         <span>Add Money</span>
@@ -135,6 +173,7 @@
                     </div>
                 </div>
         </div>
+       
         {{--marquee --}}
         <div class="marquee">
           <div class="w-full bg-inherit overflow-hidden align-center g-10 row">
@@ -145,30 +184,46 @@
        <span class="flex-auto">{{ $social_settings->marquee_notification ?? '' }}</span>
           </div>
         </div>
-        {{-- deposit --}}
-        <div class="bg-primary primary-text p-20 br-10 column g-10">
-            {{-- header --}}
-           <div class="row align-center g-10">
-             <span>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M224,48H32A16,16,0,0,0,16,64V192a16,16,0,0,0,16,16H224a16,16,0,0,0,16-16V64A16,16,0,0,0,224,48ZM136,176H120a8,8,0,0,1,0-16h16a8,8,0,0,1,0,16Zm64,0H168a8,8,0,0,1,0-16h32a8,8,0,0,1,0,16ZM32,88V64H224V88Z"></path></svg>
-                
-            </span>
-        <strong class="desc">Fund your account</strong>
-           </div>
-           {{-- deposit form --}}
-           <form action="{{ url('users/post/initiate/deposit/process') }}" method="POST" onsubmit="PostRequest(event,this,MyFunc.Initiated)" class="row bg-light p-10 br-10 align-center justify-center space-between g-10 h-fit">
-          {{-- csrf token --}}
-          <input type="hidden" name="_token" value="{{ @csrf_token() }}" class="inp input">
-            <div class="cont border-none bg-transparent h-40">
-                <input placeholder="Enter amount ({{ Auth::guard('users')->user()->currency }})" type="number" name="amount" class="input amount inp required">
+        @isset(Auth::guard('users')->user()->palmpay_account)
+            <div style="box-shadow:0 0 10px rgba(0,0,0,0.1)" class="w-full bg-light br-10 p-15 column g-10">
+                 {{-- new row --}}
+            <div class="row w-full g-10 align-center">
+                {{-- bank logo --}}
+                <div style="background:rgb(128, 0, 128,0.1)" class="column w-30 h-30 no-shrink br-5 g-10 align-center justify-center">
+                    <img src="{{ asset('icons/IMG_6982.png') }}" alt="Palmpay" class="h-20">
+                </div>
+                <strong class="font-weight-600">Palmpay Microfinance Bank</strong>
             </div>
-            <button class="h-40 w-fit p-10 br-10 border-none bg-primary primary-text">Deposit</button>
-           </form>
-           {{-- prompt --}}
-           <span class="opacity-09">
-            Enter the amount you want to deposit and click on the deposit button to complete your deposit.
-           </span>
-        </div>
+            {{-- account number --}}
+            <div style="background:var(--rgt-005);border:1px solid var(--rgt-01)" class="w-full br-5 h-50 p-10 row align-center space-between g-10">
+                <span class="font-weight-900">{{ $palmpay->account_number }}</span>
+                <div onclick='copy("{{ $palmpay->account_number }}")' class="w-fit h-full br-5 bg-primary primary-text p-10 row align-center justify-center no-select pointer">copy</div>
+            </div>
+            <span class="c-primary bold">{{ $palmpay->account_name }}</span>
+            {{-- prompt --}}
+             <span class="font-size-07 opacity-07">Transfer to this account to fund your wallet automatically.</span>
+     
+            </div>
+
+            @else
+ {{-- deposit form --}}
+        <form method="POST" action="{{ url('users/post/generate/palmpay/account/process') }}" onsubmit="PostRequest(event,this,Generated,'Generating...')" style="box-shadow:0 0 10px rgba(0,0,0,0.1)" action="" class="w-full bg-light br-10 p-15 column g-10">
+          {{-- csrf token --}}
+          <input type="hidden" class="inp input" name="_token" value="{{ @csrf_token() }}">
+            {{-- new row --}}
+            <div class="row w-full g-10 align-center">
+                {{-- bank logo --}}
+                <div style="background:rgb(128, 0, 128,0.1)" class="column w-30 h-30 no-shrink br-5 g-10 align-center justify-center">
+                    <img src="{{ asset('icons/IMG_6982.png') }}" alt="Palmpay" class="h-20">
+                </div>
+                <strong class="font-weight-600">Palmpay Microfinance Bank</strong>
+            </div>
+            <span class="font-size-07 opacity-07">Generate a Palmpay account number to fund your wallet instantly</span>
+        <button class="generate-btn">Generate Account</button>
+         
+    </form>
+        @endisset
+       
         {{-- navs --}}
         <div style="box-shadow:0 0 10px rgba(0,0,0,0.1)" class="grid navs w-full bg-light grid-4 br-10 p-10 g-10 place-center">
           {{-- new nav --}}
@@ -298,20 +353,28 @@
 @endsection
 @section('js')
     <script class="js">
-        window.MyFunc = {
-            Focus : function(){
+       
+           function Focus(){
                 document.querySelector('input.amount').focus();
-            },
-            Initiated : function(response){
+            }
+            function Initiated(response){
             let data=JSON.parse(response);
             if(data.status == 'success'){
                 window.location.href=data.link;
             }
             }
-        }
 
-        window.addEventListener('load',()=>{
+            // generated callback function
+            function Generated(response){
+                let data=JSON.parse(response);
+                if(data.status == 'success'){
+                    Redirect('{{ url()->current() }}')
+                }
+            }
+        
+
+       
             document.querySelector('.support-chat').style.bottom=document.querySelector('footer').offsetHeight + 20 + 'px';
-        })
+      
     </script>
 @endsection

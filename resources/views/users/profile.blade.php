@@ -47,7 +47,7 @@
             <strong class="desc">Profile Photo</strong>
         </div>
         {{-- form/body --}}
-         <form method="POST" action="{{ url('users/post/update/profile/photo/process') }}" onsubmit="PostRequest(event,this,MyFunc.Updated)" class="column g-10 p-20 align-center justify-center">
+         <form method="POST" action="{{ url('users/post/update/profile/photo/process') }}" onsubmit="PostRequest(event,this,Updated)" class="column g-10 p-20 align-center justify-center">
          {{-- csrf token --}}
             <input type="hidden" value="{{ @csrf_token() }}" name="_token" class="inp input">
             {{-- photo house/label --}}
@@ -58,7 +58,7 @@
                 <img src="{{ asset('photos/users/89f1cb3d-c173-4b60-b1da-ced57c534553.jpeg') }}" alt="Profile photo" class="w-full h-full br-inherit"> 
         </label>
         {{-- input type file hidden --}}
-            <input onchange="MyFunc.ChangePhoto(this)" name="photo" id="photo" required class="display-none inp input" type="file" accept="image/*">
+            <input onchange="ChangePhoto(this)" name="photo" id="photo" required class="display-none inp input" type="file" accept="image/*">
             {{-- click prompt --}}
             <div class="click-prompt">
                 <span>Click to select photo</span>
@@ -136,8 +136,8 @@
 @endsection
 @section('js')
     <script class="js">
-        window.MyFunc = {
-            ChangePhoto : function(element){
+       
+            function ChangePhoto(element){
                 let pix=element.files[0];
                 if(pix){
                     document.querySelector('.photo-house img').src=window.URL.createObjectURL(pix);
@@ -146,13 +146,13 @@
                     document.querySelector('.photo-house').classList.remove('active');
                 }
                 
-            },
-            Updated : function(response){
+            }
+           function  Updated(response){
                 let data=JSON.parse(response);
                 if(data.status == 'success'){
                     Redirect('{{ url()->current().http_build_query(request()->query()) }}');
                 }
             }
-        }
+        
     </script>
 @endsection

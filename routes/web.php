@@ -26,6 +26,13 @@ Route::get('hash',[
 Route::get('/',[
     UserDashboardController::class,'Index'
 ]);
+
+// palmpay webhook verification
+Route::post('aspfiy/palmpay/verify/webhook/process',[
+   UsersPostRequestController::class,'aspfiyPalmpayWebhook'
+]);
+
+
 // USERS
 
 // register
@@ -187,6 +194,13 @@ Route::post('users/post/electricity/bill/process',[
 Route::post('users/post/cable/tv/process',[
     UsersPostRequestController::class,'CableTV'
 ]);
+// generate palmpay account number
+Route::post('users/post/generate/palmpay/account/process',[
+    UsersPostRequestController::class,'GeneratePalmpayAccount'
+]);
+Route::post('webhook',function(){
+    return 10;
+});
 
 
 

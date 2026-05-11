@@ -19,16 +19,20 @@
 
 {{-- vite css --}}
 @isset($vite_css)
+
     <link rel="preload" href="{{ asset('vitecss/fonts/fonts.css?v='.config('versions.vite_version').'') }}" as="font" crossorigin>
      <link rel="stylesheet" href="{{ asset('vitecss/fonts/fonts.css?v='.config('versions.vite_version').'') }}">
     <link rel="stylesheet" href="{{ asset('vitecss/css/app.css?v='.config('versions.vite_version').'') }}">
-  
+    <script src="{{ asset('vitecss/js/alpine.js') }}" defer></script>
+   
 @endisset
 
 {{-- vite js --}}
 @isset($vite_js)
+
           <script src="{{ asset('vitecss/js/app.js?v='.config('versions.vite_version').'') }}"></script>    
-@endisset
+   
+ @endisset
 
 {{-- action loader --}}
 @isset($action_loader)

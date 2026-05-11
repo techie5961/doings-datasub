@@ -92,7 +92,7 @@
             <p>You would be charged {{ $currency }}{{ ($settings->agent ?? 0) == 0 ? 0 : number_format($settings->agent,2)}} for this service. To continue, enter your transaction pin below</p>
             </div>
             {{-- upgrade form --}}
-            <form action="{{ url('users/post/upgrade/account/process') }}" method="POST" onsubmit="PostRequest(event,this,MyFunc.Upgraded)" class="w-full column g-10">
+            <form action="{{ url('users/post/upgrade/account/process') }}" method="POST" onsubmit="PostRequest(event,this,Upgraded)" class="w-full column g-10">
                {{-- csrf token --}}
                <input type="hidden" class="inp input" name="_token" value="{{ @csrf_token() }}">
                {{-- upgrade type --}}
@@ -113,13 +113,13 @@
 @endsection
 @section('js')
     <script class="js">
-        window.MyFunc = {
-            Upgraded : (response)=>{
+      
+            function Upgraded(response){
                 let data=JSON.parse(response);
                 if(data.status == 'success'){
                     window.location.reload();
                 }
             }
-        }
+        
     </script>
 @endsection

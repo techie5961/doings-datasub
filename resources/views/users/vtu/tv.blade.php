@@ -60,7 +60,7 @@
        </template>
        
         {{-- topup form --}}
-        <form action="{{ url('users/post/cable/tv/process') }}" method="POST" onsubmit="PostRequest(event,this,MyFunc.Completed)" style="box-shadow:0px 0px 10px rgba(0,0,0,0.1)" class="w-full br-20 column g-10 p-20 bg-light">
+        <form action="{{ url('users/post/cable/tv/process') }}" method="POST" onsubmit="PostRequest(event,this,Completed)" style="box-shadow:0px 0px 10px rgba(0,0,0,0.1)" class="w-full br-20 column g-10 p-20 bg-light">
            {{-- csrf token --}}
            <input type="hidden" name="_token" value="{{ @csrf_token() }}" class="inp input">
            {{-- trx pin --}}
@@ -82,7 +82,7 @@
             <div class="column g-5 w-full">
                 <label>Provider</label>
                 <div class="cont">
-                <select onchange="MyFunc.ShowPlans(this)" name="provider" class="inp input required">
+                <select onchange="ShowPlans(this)" name="provider" class="inp input required">
                     <option value="" selected disabled>Select Provider...</option>
                     <option value="gotv">GOTV</option>
                     <option value="dstv">DSTV</option>
@@ -95,7 +95,7 @@
             <div class="column group display-none g-5 w-full">
                 <label>Plan</label>
                 <div class="cont">
-                <select onchange="MyFunc.ChoosePlan(this)" name="plan" class="inp input required">
+                <select onchange="ChoosePlan(this)" name="plan" class="inp input required">
                    <option value="" selected disabled>Select plan...</option>
                 </select>
                 </div>
@@ -135,11 +135,11 @@
 
            
              
-           <div onclick="MyFunc.OpenConfirmationModal(this)" class="w-full btn br-1000 row align-center border-none justify-center bg-primary primary-text no-selecvt pc-pointer m-top-10 p-10 h-50 g-10">Subscribe Cable TV</div>
+           <div onclick="OpenConfirmationModal(this)" class="w-full btn br-1000 row align-center border-none justify-center bg-primary primary-text no-selecvt pc-pointer m-top-10 p-10 h-50 g-10">Subscribe Cable TV</div>
         </form>
     </section>
     {{-- confirmation modal --}}
-    <section onclick="MyFunc.CloseConfirmationModal()" class="modal confirmation">
+    <section onclick="CloseConfirmationModal()" class="modal confirmation">
         <div style="gap:20px !important;" class="child column align-center text-center">
             <div class="h-70 w-70 circle column align-center justify-center bg-primary primary-text">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="40" width="40"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm-4,48a12,12,0,1,1-12,12A12,12,0,0,1,124,72Zm12,112a16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40a8,8,0,0,1,0,16Z"></path></svg>
@@ -152,10 +152,10 @@
                 <span>Do you wish to continue?</span>
             </div>
             <div class="row g-10 no-select align-center space-between w-full">
-                <div onclick="MyFunc.CloseConfirmationModal()" style="border:1px solid red;color:red;" class="h-50 pc-pointer br-10 row align-center justify-center w-full">
+                <div onclick="CloseConfirmationModal()" style="border:1px solid red;color:red;" class="h-50 pc-pointer br-10 row align-center justify-center w-full">
                    No
                 </div>
-                   <div onclick="MyFunc.OpenPinModal()" style="border:1px solid #4caf50;color:#4caf50;" class="h-50 pc-pointer br-10 row align-center justify-center w-full">
+                   <div onclick="OpenPinModal()" style="border:1px solid #4caf50;color:#4caf50;" class="h-50 pc-pointer br-10 row align-center justify-center w-full">
                   Yes
                 </div>
             </div>
@@ -163,7 +163,7 @@
         </div>
     </section>
     {{-- pin modal --}}
-    <section onclick="MyFunc.HidePinModal()" class="modal pin">
+    <section onclick="HidePinModal()" class="modal pin">
         <div onclick="event.stopPropagation()" style="gap:20px !important;" class="child column">
            <strong class="font-1-5">Transaction Pin</strong>
            <hr style="background:var(--rgt-01)">
@@ -172,19 +172,18 @@
             <input placeholder="Enter your 4 digits transaction pin" type="password" inputmode="numer" maxlength="4" class="input inp required">
            </div>
 
-           <button onclick="MyFunc.SubmitForm(this)" class="post">Continue</button>
+           <button onclick="SubmitForm(this)" class="post">Continue</button>
             
         </div>
     </section>
 @endsection
 @section('js')
     <script class="js">
-        window.MyFunc = {
-           
-            CloseConfirmationModal : function(){
+       
+           function  CloseConfirmationModal(){
                 document.querySelector('.confirmation.modal').classList.remove('active');
-            },
-            OpenConfirmationModal : function(element){
+            }
+            function OpenConfirmationModal(element){
                 let inps=element.closest('form').querySelectorAll('.inp.required');
                 let is_empty=false;
                 
@@ -203,12 +202,12 @@
                   
                     document.querySelector('.modal.confirmation').classList.add('active');
                 }
-            },
-            OpenPinModal : ()=>{
+            }
+            function OpenPinModal(){
                 document.querySelector('.modal.confirmation').classList.remove('active');
                 document.querySelector('.modal.pin').classList.add('active');
-            },
-            SubmitForm : (element) =>{
+            }
+            function SubmitForm(element){
                 if(element.closest('.modal .child').querySelector('.cont input').value == ''){
                     element.closest('.modal .child').querySelector('.cont').classList.add('empty');
                     return;
@@ -228,15 +227,15 @@
                 }
                 element.innerHTML='processing...';
                 element.classList.add('disabled');
-            },
-            HidePinModal : ()=>{
+            }
+            function HidePinModal(){
                if(document.querySelector('form button')){
                  document.querySelector('form button').remove();
                }
                 document.querySelector('.modal.pin').classList.remove('active');
               
-            },
-            Completed : function(response){
+            }
+            function Completed(response){
                  document.querySelector('.modal.pin button').classList.remove('disabled');
                 document.querySelector('.modal.pin button').innerHTML=document.querySelector('.modal.pin button').dataset.text;
              
@@ -244,17 +243,17 @@
                 if(data.status == 'success'){
                     Redirect(data.receipt);
                 }
-            },
-            ShowPlans : (element)=>{
+            }
+           function  ShowPlans(element){
                 document.querySelector('select[name=plan]').closest('.group').classList.remove('display-none');
                  document.querySelector('select[name=plan]').innerHTML=document.querySelector('template.' + element.value).innerHTML;
-            },
-            ChoosePlan : (element)=>{
+            }
+           function  ChoosePlan(element){
                     document.querySelector('input[name=amount]').value=element.options[element.selectedIndex].dataset.amount;
                     document.querySelector('input[name=to_pay]').value='{{ $currency }}' + (parseFloat(element.options[element.selectedIndex].dataset.amount) + parseFloat(element.options[element.selectedIndex].dataset.fee)).toLocaleString();
                     document.querySelector('input[name=plan_name]').value=document.querySelector('select[name=plan]').options[document.querySelector('select[name=plan]').selectedIndex].innerHTML;
             }
 
-        }
+        
     </script>
 @endsection

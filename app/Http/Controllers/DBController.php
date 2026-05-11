@@ -63,6 +63,12 @@ class DBController extends Controller
         });
     }
 
+    if(!Schema::hasColumn('users','palmpay_account')){
+        Schema::table('users',function($table){
+            $table->json('palmpay_account')->nullable()->comment('Aspfiy palmpay account number(for deposits and can be generated once per user only');
+        });
+    }
+
 
     return response()->json([
         'message' => 'Queries ran successfull',

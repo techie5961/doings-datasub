@@ -15,7 +15,7 @@
 
         </div>
         {{-- form --}}
-        <form action="{{ url('users/post/update/password/process') }}" method="POST" onsubmit="PostRequest(event,this,MyFunc.Updated)" class="w-full column g-10">
+        <form action="{{ url('users/post/update/password/process') }}" method="POST" onsubmit="PostRequest(event,this,Updated)" class="w-full column g-10">
            {{-- csrf token --}}
            <input type="hidden" name="_token" value="{{ @csrf_token() }}" class="inp input">
             {{-- new input --}}
@@ -47,13 +47,13 @@
 @endsection
 @section('js')
     <script class="">
-        window.MyFunc = {
-            Updated : function(response){
+       
+           function  Updated(response){
                 let data=JSON.parse(response);
                 if(data.status == 'success'){
                     Redirect('{{ url('users/settings') }}')
                 }
             }
-        }
+        
     </script>
 @endsection

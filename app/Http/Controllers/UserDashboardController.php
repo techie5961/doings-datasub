@@ -20,7 +20,9 @@ class UserDashboardController extends Controller
     }
     // dashboard
     public function Dashboard(){
+      
         return view('users.dashboard',[
+            'palmpay' => json_decode(Auth::guard('users')->user()->palmpay_account ?? '{}'),
               'social_settings' => json_decode(DB::table('settings')->where('key','social_settings')->first()->value ?? '{}'),
                'finance_settings' => json_decode(DB::table('settings')->where('key','finance_settings')->first()->value ?? '{}'),
 
@@ -153,7 +155,7 @@ class UserDashboardController extends Controller
                 Carbon::now()->startOfWeek(),
                 Carbon::now()->endOfWeek()
             ])->sum('amount'),
-            'this_month' => DB::table('transactions')->where('user_id',Auth::guard('users')->user()->id)->where('json->type','vtu_transaction')->whereMonth('status','success')->where('date',now()->month())->whereYear('date',now()->year())->sum('amount'),
+            'this_month' => DB::table('transactions')->where('user_id',Auth::guard('users')->user()->id)->where('json->type','vtu_transaction')->whereMonth('status','success')->where('date',now()->month)->whereYear('date',now()->year)->sum('amount'),
              'total_spent' => DB::table('transactions')->where('user_id',Auth::guard('users')->user()->id)->where('json->type','vtu_transaction')->whereMonth('status','success')->sum('amount'),
              'total_funding' => DB::table('transactions')->where('status','success')->where('user_id',Auth::guard('users')->user()->id)->where('type','deposit')->sum('amount')
             

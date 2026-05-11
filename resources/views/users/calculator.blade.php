@@ -192,32 +192,32 @@
 		<input type="text" id="display" readonly value="0">
 
 		<div class="row">
-			<div class="button" onclick="MyFunc.clearDisplay()">c</div>
-			<div class="button" onclick="MyFunc.appendOperator('.')">.</div> 
-			<div class="button" onclick="MyFunc.appendNumber(0)">0</div> 
-			<div class="button1" onclick="MyFunc.appendOperator('/')">÷</div>
+			<div class="button" onclick="clearDisplay()">c</div>
+			<div class="button" onclick="appendOperator('.')">.</div> 
+			<div class="button" onclick="appendNumber(0)">0</div> 
+			<div class="button1" onclick="appendOperator('/')">÷</div>
 		</div>
 		<div class="row">
-			<div class="button2" onclick="MyFunc.appendNumber(7)">7</div>
-			<div class="button2" onclick="MyFunc.appendNumber(8)">8</div>
-			<div class="button2" onclick="MyFunc.appendNumber(9)">9</div>
-			<div class="button1" onclick="MyFunc.appendOperator('*')">x</div>
+			<div class="button2" onclick="appendNumber(7)">7</div>
+			<div class="button2" onclick="appendNumber(8)">8</div>
+			<div class="button2" onclick="appendNumber(9)">9</div>
+			<div class="button1" onclick="appendOperator('*')">x</div>
 		</div>
 		<div class="row">
-			<div class="button2" onclick="MyFunc.appendNumber(4)">4</div>
-			<div class="button2" onclick="MyFunc.appendNumber(5)">5</div>
-			<div class="button2" onclick="MyFunc.appendNumber(6)">6</div>
-			<div class="button1" onclick="MyFunc.appendOperator('-')">-</div>
+			<div class="button2" onclick="appendNumber(4)">4</div>
+			<div class="button2" onclick="appendNumber(5)">5</div>
+			<div class="button2" onclick="appendNumber(6)">6</div>
+			<div class="button1" onclick="appendOperator('-')">-</div>
 		</div>
 		<div class="row"> 
-		<div class="button2" onclick="MyFunc.appendNumber(1)">1</div>
-		<div class="button2" onclick="MyFunc.appendNumber(2)">2</div>
-		<div class="button2" onclick="MyFunc.appendNumber(3)">3</div>
-		<div class="button1" onclick="MyFunc.appendOperator('+')">+</div>
+		<div class="button2" onclick="appendNumber(1)">1</div>
+		<div class="button2" onclick="appendNumber(2)">2</div>
+		<div class="button2" onclick="appendNumber(3)">3</div>
+		<div class="button1" onclick="appendOperator('+')">+</div>
 		</div> <br/>
 		<div class="row"> 
 		
-		<div class="button2 equal-to" onclick="MyFunc.calculate()">=</div> <br>
+		<div class="button2 equal-to" onclick="calculate()">=</div> <br>
 		</div><br>
 		<div class="line"></div>
 	
@@ -228,16 +228,16 @@
 @section('js')
 	<script class="js">
 		
-window.MyFunc= {
-	appendNumber : function(number) {
+
+	function appendNumber(number) {
 			const display = document.getElementById('display');
 			display.value += number;
-		},
-	appendOperator : function(operator) {
+		};
+	function appendOperator(operator) {
 			const display = document.getElementById('display');
 			display.value += operator;
-		},
-	calculate : function() {
+		};
+	function calculate() {
 			const display = document.getElementById('display');
 			try {
 				const result = eval(display.value);
@@ -245,12 +245,12 @@ window.MyFunc= {
 			} catch (error) {
 				display.value = 'Error';
 			}
-		},
-	clearDisplay : function() {
+		};
+	function clearDisplay() {
 			const display = document.getElementById('display');
 			display.value = '';
 		}
-}
+
 
 
 		

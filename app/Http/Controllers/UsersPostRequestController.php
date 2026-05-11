@@ -968,4 +968,123 @@ class UsersPostRequestController extends Controller
         'status' => 'error'
     ]);
     }
+
+    // generate palmpay account number
+    public function GeneratePalmpayAccount(){
+        if(isset(Auth::guard('users')->user()->palmpay_account)){
+            return response()->json([
+                    'message' => 'Palmpay account generated successfully',
+                    'status' => 'success'
+                ]);
+        }
+            $response=Http::withToken(env('ASPFIY_SECRET_KEY'))->post('https://api-v1.aspfiy.com/reserve-palmpay/',[
+                'email' => Auth::guard('users')->user()->email,
+                'reference' => GenerateID(),
+                'firstName' => explode(' ',Auth::guard('users')->user()->name)[0],
+                'lastName' => explode(' ',Auth::guard('users')->user()->name)[1],
+                'webhookUrl' => url('aspfiy/palmpay/verify/webhook/process'),
+                'phone' => Auth::guard('users')->user()->phone
+            ]);
+            if($response->successful()){
+                $data=$response->json();
+               $account_number=$data['data']['account']['account_number'];
+               $account_name=$data['data']['account']['account_name'];
+               $bank_name=$data['data']['account']['bank_name'];
+                DB::transaction(function() use($account_name,$account_number,$bank_name){
+                    DB::table('users')->where('id',Auth::guard('users')->user()->id)->update([
+                        'palmpay_account' => json_encode([
+                            'account_number' => $account_number,
+                            'account_name' => $account_name,
+                            'bank_name' => $bank_name
+                        ]),
+                        'updated' => Carbon::now() 
+                    ]);
+                });
+                return response()->json([
+                    'message' => 'Palmpay account generated successfully',
+                    'status' => 'success'
+                ]);
+            }
+
+            return response()->json([
+            'message' => 'Internal server error,please try again',
+            'status' => 'error'
+             ]);
+    }
+
+    // aspfiy palmpay webhook
+    public function aspfiyPalmpayWebhook(){
+        $secret_key=env('ASPFIY_SECRET_KEY');
+        $signature=request()->header('x-wiaxy-signature');
+        $account_number=request('data.account.account_number');
+         $amount=request('data.amount');
+        $expected=md5($secret_key);
+        if(!$signature || $signature != $expected){
+            return response()->json([
+                'message' => 'Unauthorised',
+                'status' => 'error'
+            ],401);
+        }
+
+        if(request('event') === 'PAYMENT_NOTIFICATION'){
+             $finance_settings = json_decode(DB::table('settings')->where('key','finance_settings')->first()->value ?? '{}');
+        
+         $fee_amount=$finance_settings->deposit->fee->amount ?? 0;
+         $fee_method=$finance_settings->deposit->fee->method ?? 'percentage';
+
+         $fee=$fee_amount;
+         if($fee_method == 'percentage'){
+            $fee=($fee_amount * $amount)/100;
+
+         }
+       
+          
+            DB::transaction(function() use($account_number,$amount,$fee){
+                DB::table('users')->where('palmpay_account->account_number',$account_number)->increment('main_balance',$amount,[
+                    'updated' => Carbon::now()
+                ]);
+                
+
+                     DB::table('transactions')->insert([
+    'uniqid' => GenerateID(),
+    'user_id' => DB::table('users')->where('palmpay_account->account_number',$account_number)->first()->id,
+    'title' => 'Wallet Funding',
+    'class' => 'credit',
+    'type' => 'deposit',
+    'amount' => $amount,
+     'fee' => $fee,
+    'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M224,104v96a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V104A16,16,0,0,1,48,88H208A16,16,0,0,1,224,104ZM56,72H200a8,8,0,0,0,0-16H56a8,8,0,0,0,0,16ZM72,40H184a8,8,0,0,0,0-16H72a8,8,0,0,0,0,16Z"></path></svg>',
+    'wallet' => json_encode([
+         'from' => [
+            'method' => 'Palmpay Account',
+            'ref' => GenerateID()
+        ],
+        'to' => 'main_balance',
+       
+
+    ]),
+    'json' => json_encode([
+    'balance' => [
+        'before' => DB::table('users')->where('palmpay_account->account_number',$account_number)->first()->main_balance,
+        'after' => DB::table('users')->where('palmpay_account->account_number',$account_number)->first()->main_balance + $amount
+    ],
+    'primary_wallet' => 'Main Wallet',
+    
+
+    ]),
+    'data' => json_encode([
+        'gateway' => 'Palmpay Account',
+        'reference' => GenerateID()
+    ]),
+    'status' => 'success',
+    'updated' => Carbon::now(),
+    'date' => Carbon::now()
+    ]);
+            });
+        }
+        return 'OK';
+    }
+
+
+    
 }

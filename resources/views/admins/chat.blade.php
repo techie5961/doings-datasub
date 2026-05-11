@@ -99,6 +99,7 @@
     </style>
 @endsection
 @section('main')
+
  <section class="w-full chat-section column g-10">
     {{-- messages --}}
     <div class="messages">

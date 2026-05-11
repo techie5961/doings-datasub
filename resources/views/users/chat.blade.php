@@ -4,15 +4,8 @@
 @endsection
 @section('css')
     <style class="css">
-        main{
-            padding:0;
-            
-        }
-        body{
-            gap:0;
-            background:var(--bg-light);
-            overflow:hidden;
-        }
+      
+
         .chat-section{
             background:var(--bg-light);
             /* flex:1 0 auto; */
@@ -117,8 +110,8 @@
     
     {{-- chat box --}}
     <div class="chat-box">
-        <input oninput="MyFunc.Typing(this)" placeholder="Enter your message..." type="text" class="message-input">
-        <div onclick=" MyFunc.SendChat(this,'{{ url('users/get/send/chat/process') }}')" class="send-box">
+        <input oninput="Typing(this)" placeholder="Enter your message..." type="text" class="message-input">
+        <div onclick=" SendChat(this,'{{ url('users/get/send/chat/process') }}')" class="send-box">
 
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M231.4,44.34s0,.1,0,.15l-58.2,191.94a15.88,15.88,0,0,1-14,11.51q-.69.06-1.38.06a15.86,15.86,0,0,1-14.42-9.15L107,164.15a4,4,0,0,1,.77-4.58l57.92-57.92a8,8,0,0,0-11.31-11.31L96.43,148.26a4,4,0,0,1-4.58.77L17.08,112.64a16,16,0,0,1,2.49-29.8l191.94-58.2.15,0A16,16,0,0,1,231.4,44.34Z"></path></svg>
 
@@ -130,15 +123,15 @@
 @endsection
 @section('js')
     <script class="js">
-        window.MyFunc = {
-            Typing : (element)=>{
+    
+           function  Typing(element){
                     if(element.value == ''){
                         document.querySelector('.send-box').classList.remove('active');
                     }else{
                         document.querySelector('.send-box').classList.add('active');
                     }
-            },
-            SendChat : async (element,url)=>{
+            }
+           async function SendChat(element,url){
              
                 if(document.querySelector('.message-input').value != ''){
                     let message=document.querySelector('.message-input').value;
@@ -168,9 +161,9 @@
                     alert(response.status)
                   }
                 }
-            },
-            Style : ()=>{
-                 window.addEventListener('load',()=>{
+            }
+            async function Style(){
+                
                 // document.querySelector('.messages').style.maxHeight=Math.abs(document.querySelector('footer').getBoundingClientRect().top - document.querySelector('header').getBoundingClientRect().bottom - document.querySelector('.chat-box').getBoundingClientRect().height) - 20 + 'px'
                  document.querySelector('.messages').style.maxHeight=window.innerHeight - document.querySelector('header').offsetHeight - document.querySelector('footer').offsetHeight - document.querySelector('.chat-box').offsetHeight + 'px'
                 document.querySelector('.messages').style.height=window.innerHeight - document.querySelector('header').offsetHeight - document.querySelector('footer').offsetHeight - document.querySelector('.chat-box').offsetHeight + 'px'
@@ -178,10 +171,17 @@
                         top : document.querySelector('.messages').scrollHeight,
                         behavior : 'smooth'
                     })
-                 })
+                 
             }
-        }
-        MyFunc.Style();
+        
+
+             document.addEventListener('vitecss:navigated',()=>{
+                 Style();
+             })
+        window.addEventListener('load',()=>{
+                 Style();
+             })
+       
        
     </script>
 @endsection

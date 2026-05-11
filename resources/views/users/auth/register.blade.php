@@ -11,7 +11,7 @@
             <span class="opacity-07">Join {{ config('app.name') }}</span>
            </div>
            {{-- form --}}
-           <form action="{{ url('users/post/register/process') }}" onsubmit="PostRequest(event,this,MyFunc.Completed)" class="w-full g-10 column">
+           <form action="{{ url('users/post/register/process') }}" onsubmit="PostRequest(event,this,Completed)" class="w-full g-10 column">
            {{-- csrf token --}}
            <input type="hidden" class="inp input" name="_token" value="{{ @csrf_token() }}">
             {{-- new input --}}
@@ -98,13 +98,13 @@
 @endsection
 @section('js')
    <script class="js">
-    window.MyFunc = {
-        Completed : function(response){
+   
+        function Completed(response){
             let data=JSON.parse(response);
             if(data.status == 'success'){
                 return window.location.href='{{ url('users/login') }}';
             }
         }
-    }
+    
    </script>
 @endsection

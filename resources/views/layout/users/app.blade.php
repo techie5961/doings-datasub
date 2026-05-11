@@ -13,6 +13,36 @@
 @include('components.utilities',[
     'vite_css' => true
 ])
+@include('components.utilities',[
+    'vite_js' => true
+  ])
+   <script>
+      
+     function StyleUp(){
+           document.querySelector('body').style.paddingTop=document.querySelector('header').getBoundingClientRect().height + 'px';
+        document.querySelector('body').style.paddingBottom=document.querySelector('footer').getBoundingClientRect().height + 'px';
+
+     }
+     window.addEventListener('load',()=>{
+        StyleUp();
+     });
+
+    document.addEventListener('livewire:navigated',()=>{
+        if(document.querySelector('.loading-state')){
+            document.querySelector('.loading-state').remove();
+        }
+     });
+      
+       function Navigate(url,element=null){
+          Vitecss.navigate(url)
+         
+
+        }
+        function Redirect(url){
+           Vitecss.navigate(url);
+        }
+     
+    </script>
 {{-- yield css --}}
      @yield('css')
     <title>{{ config('app.name') }} || Users || @yield('title') </title>
@@ -24,7 +54,7 @@
             right:0;
             padding:10px;
             background:var(--bg-light);
-            z-index:3000;
+            z-index:1000;
            
         }
         footer{
@@ -124,7 +154,7 @@
     
     <footer>
         {{-- new link --}}
-        <div onclick="Navigate('{{ url('users/dashboard') }}',this,)" class="{{ url()->current() == url('users/dashboard') ? 'active' : '' }}">
+        <div onclick="Vitecss.navigate('{{ url('users/dashboard') }}')" class="{{ url()->current() == url('users/dashboard') ? 'active' : '' }}">
           <div class="icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M240,208H224V136l2.34,2.34A8,8,0,0,0,237.66,127L139.31,28.68a16,16,0,0,0-22.62,0L18.34,127a8,8,0,0,0,11.32,11.31L32,136v72H16a8,8,0,0,0,0,16H240a8,8,0,0,0,0-16Zm-88,0H104V160a4,4,0,0,1,4-4h40a4,4,0,0,1,4,4Z"></path></svg>
 
@@ -132,7 +162,7 @@
           <small>Home</small>
         </div>
         {{-- new link --}}
-        <div class="{{ url()->current() == url('users/transactions') ? 'active' : '' }}" onclick="Navigate('{{ url('users/transactions') }}',this)">
+        <div class="{{ url()->current() == url('users/transactions') ? 'active' : '' }}" onclick="Vitecss.navigate('{{ url('users/transactions') }}')">
           <div class="icon">
            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M224,128A96,96,0,0,1,62.11,197.82a8,8,0,1,1,11-11.64A80,80,0,1,0,71.43,71.43C67.9,75,64.58,78.51,61.35,82L77.66,98.34A8,8,0,0,1,72,112H32a8,8,0,0,1-8-8V64a8,8,0,0,1,13.66-5.66L50,70.7c3.22-3.49,6.54-7,10.06-10.55A96,96,0,0,1,224,128ZM128,72a8,8,0,0,0-8,8v48a8,8,0,0,0,3.88,6.86l40,24a8,8,0,1,0,8.24-13.72L136,123.47V80A8,8,0,0,0,128,72Z"></path></svg>
 
@@ -140,7 +170,7 @@
           <small>History</small>
         </div>
           {{-- new link --}}
-        <div class="{{ url()->current() == url('users/services') ? 'active' : '' }}" onclick="Navigate('{{ url('users/services') }}',this)">
+        <div class="{{ url()->current() == url('users/services') ? 'active' : '' }}" onclick="Vitecss.navigate('{{ url('users/services') }}')">
           <div class="icon">
          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M224,64H176V56a24,24,0,0,0-24-24H104A24,24,0,0,0,80,56v8H32A16,16,0,0,0,16,80v28a4,4,0,0,0,4,4H64V96.27A8.17,8.17,0,0,1,71.47,88,8,8,0,0,1,80,96v16h96V96.27A8.17,8.17,0,0,1,183.47,88,8,8,0,0,1,192,96v16h44a4,4,0,0,0,4-4V80A16,16,0,0,0,224,64Zm-64,0H96V56a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8Zm80,68v60a16,16,0,0,1-16,16H32a16,16,0,0,1-16-16V132a4,4,0,0,1,4-4H64v16a8,8,0,0,0,8.53,8A8.17,8.17,0,0,0,80,143.73V128h96v16a8,8,0,0,0,8.53,8,8.17,8.17,0,0,0,7.47-8.25V128h44A4,4,0,0,1,240,132Z"></path></svg>
 
@@ -148,7 +178,7 @@
           <small>Services</small>
         </div>
            {{-- new link --}}
-        <div class="{{ url()->current() == url('users/support') ? 'active' : '' }}" onclick="Navigate('{{ url('users/support') }}',this)">
+        <div class="{{ url()->current() == url('users/support') ? 'active' : '' }}" onclick="Vitecss.navigate('{{ url('users/support') }}')">
           <div class="icon">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M232,128v56a24,24,0,0,1-24,24H192a24,24,0,0,1-24-24V144a24,24,0,0,1,24-24h23.65a87.71,87.71,0,0,0-87-80H128a88,88,0,0,0-87.64,80H64a24,24,0,0,1,24,24v40a24,24,0,0,1-24,24H48a24,24,0,0,1-24-24V128A104.11,104.11,0,0,1,201.89,54.66,103.41,103.41,0,0,1,232,128Z"></path></svg>
 
@@ -157,7 +187,7 @@
         </div>
 
           {{-- new link --}}
-        <div class="{{ url()->current() == url('users/settings') ? 'active' : '' }}" onclick="Navigate('{{ url('users/settings') }}',this)">
+        <div class="{{ url()->current() == url('users/settings') ? 'active' : '' }}" onclick="Vitecss.navigate('{{ url('users/settings') }}')">
           <div class="icon">
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="CurrentColor" height="20" width="20"><path d="M216,130.16q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.6,107.6,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.29,107.29,0,0,0-26.25-10.86,8,8,0,0,0-7.06,1.48L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.6,107.6,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06ZM128,168a40,40,0,1,1,40-40A40,40,0,0,1,128,168Z"></path></svg>
 
@@ -166,33 +196,7 @@
         </div>
 
     </footer>
-  @include('components.utilities',[
-    'vite_js' => true
-  ])
-   <script>
-      
-        document.querySelector('main').style.paddingTop=document.querySelector('header').getBoundingClientRect().height + 10 + 'px';
-        document.querySelector('main').style.paddingBottom=document.querySelector('footer').getBoundingClientRect().height + 10 + 'px';
-
-      
-       function Navigate(url,element=null){
-            if(element !== null){
-                 document.querySelectorAll('footer > div').forEach((div)=>{
-            div.classList.remove('active');
-          });
-            
-                element.classList.add('active');
-            }
-
-                 window.location.href=url;
-         
-
-        }
-        function Redirect(url){
-            window.location.href=url;
-        }
-     
-    </script>
+  
   {{-- yield js --}}
     @yield('js')
    
