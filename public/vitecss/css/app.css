@@ -1142,25 +1142,25 @@ button.post::before{
   top:0;
   left:0;
   bottom:0;
-  background:linear-gradient(to right,transparent,white,transparent);
-  width:100%;
-  --transform:skew(30deg);
-  opacity:0.3;
-  animation:shine 4s linear infinite;
+  background:var(--primary-text);
+  width:30%;
+  opacity:0.1;
+  clip-path: polygon(0% 0%,0% 0%,100% 100%,0% 100%);
+ 
+}
+button.post::after{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  background:var(--primary-text);
+  width:30%;
+  opacity:0.1;
+  clip-path: polygon(0% 0%,100% 0%,100% 100%,0% 0%);
+ 
+}
 
-}
-@keyframes shine{
-    0%{
-        transform:var(--transform) translateX(-100%);
-    }
-    50%{
-        transform:var(--transform) translateX(0%);
-    }
-    100%{
-        transform:var(--transform) translateX(100%);
-    
-    }
-}
 
 button.post .working{
     display:none;
