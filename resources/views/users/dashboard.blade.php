@@ -207,7 +207,7 @@
 
             @else
  {{-- deposit form --}}
-        <form method="POST" action="{{ url('users/post/generate/palmpay/account/process') }}" tonsubmit="PostRequest(event,this,Generated,'Generating...')" style="box-shadow:0 0 10px rgba(0,0,0,0.1)" action="" class="w-full bg-light br-10 p-15 column g-10">
+        <form method="POST" action="{{ url('users/post/generate/palmpay/account/process') }}" onsubmit="PostRequest(event,this,Generated,'Generating...')" style="box-shadow:0 0 10px rgba(0,0,0,0.1)" action="" class="w-full bg-light br-10 p-15 column g-10">
           {{-- csrf token --}}
           <input type="hidden" class="inp input" name="_token" value="{{ @csrf_token() }}">
             {{-- new row --}}
