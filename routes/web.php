@@ -35,7 +35,6 @@ Route::post('aspfiy/palmpay/verify/webhook/process',[
 
 // USERS
 
-Route::middleware([UsersAuthMiddleware::class])->group(function(){
 // register
 Route::get('users/register',[
     UserDashboardController::class,'Register'
@@ -50,8 +49,6 @@ Route::get('users/login',[
 Route::get('login',[
     UserDashboardController::class,'Login'
 ]);
-
-});
 
 // users dashboard middleware start group
 Route::middleware([UsersDashboardMiddleware::class])->group(function(){
